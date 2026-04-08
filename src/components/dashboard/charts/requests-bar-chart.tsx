@@ -22,19 +22,19 @@ function CustomTooltip({ active, payload, label }: any) {
     <div
       className="rounded-lg border px-3 py-2 text-[12px] space-y-1"
       style={{
-        backgroundColor: "hsl(0 0% 11%)",
-        borderColor: "hsl(0 0% 22%)",
+        backgroundColor: "var(--background-dialog)",
+        borderColor: "var(--border-strong)",
         boxShadow: "0 4px 16px #0006",
       }}
     >
-      <p className="font-medium pb-1" style={{ color: "hsl(0 0% 60%)", borderBottom: "1px solid hsl(0 0% 18%)" }}>
+      <p className="font-medium pb-1" style={{ color: "var(--foreground-light)", borderBottom: "1px solid var(--border-default)" }}>
         {label}
       </p>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: p.fill }} />
-          <span style={{ color: "hsl(0 0% 64%)" }}>{p.dataKey === "deploys" ? "Despliegues" : "Incidentes"}:</span>
-          <strong style={{ color: "hsl(0 0% 90%)" }}>{p.value}</strong>
+          <span style={{ color: "var(--foreground-light)" }}>{p.dataKey === "deploys" ? "Despliegues" : "Incidentes"}:</span>
+          <strong style={{ color: "var(--foreground-default)" }}>{p.value}</strong>
         </div>
       ))}
     </div>
@@ -60,17 +60,17 @@ export function RequestsBarChart() {
     >
       <div className="flex items-start justify-between flex-wrap gap-2">
         <div>
-          <p className="text-[13px] font-semibold" style={{ color: "hsl(0 0% 88%)" }}>Despliegues e Incidentes</p>
-          <p className="text-[12px] mt-0.5" style={{ color: "hsl(0 0% 44%)" }}>Últimos 8 meses</p>
+          <p className="text-[13px] font-semibold" style={{ color: "var(--foreground-default)" }}>Despliegues e Incidentes</p>
+          <p className="text-[12px] mt-0.5" style={{ color: "var(--foreground-muted)" }}>Últimos 8 meses</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm" style={{ backgroundColor: "#3ECF8E" }} />
-            <span className="text-[11px]" style={{ color: "hsl(0 0% 46%)" }}>Despliegues</span>
+            <span className="w-3 h-3 rounded-sm" style={{ backgroundColor: "var(--brand)" }} />
+            <span className="text-[11px]" style={{ color: "var(--foreground-lighter)" }}>Despliegues</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded-sm" style={{ backgroundColor: "hsl(10 78% 56%)" }} />
-            <span className="text-[11px]" style={{ color: "hsl(0 0% 46%)" }}>Incidentes</span>
+            <span className="text-[11px]" style={{ color: "var(--foreground-lighter)" }}>Incidentes</span>
           </div>
         </div>
       </div>
@@ -78,18 +78,18 @@ export function RequestsBarChart() {
       <div ref={containerRef} style={{ height: 220 }}>
         {width > 0 && (
           <BarChart width={width} height={220} data={data} margin={{ top: 4, right: 4, left: -16, bottom: 0 }} barGap={4}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(0,0%,16%)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--background-control)" vertical={false} />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 11, fill: "hsl(0,0%,38%)" }}
+              tick={{ fontSize: 11, fill: "var(--foreground-muted)" }}
               axisLine={false} tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: "hsl(0,0%,38%)" }}
+              tick={{ fontSize: 11, fill: "var(--foreground-muted)" }}
               axisLine={false} tickLine={false}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "hsl(0,0%,14%)" }} />
-            <Bar dataKey="deploys"   fill="#3ECF8E"          radius={[3, 3, 0, 0]} maxBarSize={28} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--surface-100)" }} />
+            <Bar dataKey="deploys"   fill="var(--brand)"     radius={[3, 3, 0, 0]} maxBarSize={28} />
             <Bar dataKey="incidents" fill="hsl(10,78%,56%)"  radius={[3, 3, 0, 0]} maxBarSize={28} />
           </BarChart>
         )}

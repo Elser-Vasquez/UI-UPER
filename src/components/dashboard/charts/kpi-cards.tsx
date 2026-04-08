@@ -21,7 +21,7 @@ export function KpiCard({
   const isDown = trend !== undefined && trend < 0
   const isFlat = trend === 0
 
-  const trendColor = isUp ? "#3ECF8E" : isDown ? "hsl(10 78% 62%)" : "hsl(0 0% 46%)"
+  const trendColor = isUp ? "var(--brand)" : isDown ? "hsl(10 78% 62%)" : "var(--foreground-lighter)"
   const TrendIcon  = isUp ? TrendingUp : isDown ? TrendingDown : Minus
 
   return (
@@ -30,23 +30,23 @@ export function KpiCard({
       style={{ borderColor: "var(--border-default)", backgroundColor: "var(--surface-100)" }}
     >
       <div className="flex items-start justify-between">
-        <p className="text-[12px] font-medium uppercase tracking-widest" style={{ color: "hsl(0 0% 44%)" }}>
+        <p className="text-[12px] font-medium uppercase tracking-widest" style={{ color: "var(--foreground-muted)" }}>
           {label}
         </p>
         <div
           className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
-          style={{ backgroundColor: iconBg ?? "var(--surface-300)", color: iconColor ?? "hsl(0 0% 52%)" }}
+          style={{ backgroundColor: iconBg ?? "var(--surface-300)", color: iconColor ?? "var(--foreground-lighter)" }}
         >
           <Icon style={{ width: 15, height: 15 }} strokeWidth={1.6} />
         </div>
       </div>
 
       <div>
-        <p className="text-[28px] font-bold leading-none tracking-tight" style={{ color: "hsl(0 0% 94%)" }}>
+        <p className="text-[28px] font-bold leading-none tracking-tight" style={{ color: "var(--foreground-default)" }}>
           {value}
         </p>
         {sub && (
-          <p className="text-[12px] mt-1" style={{ color: "hsl(0 0% 44%)" }}>{sub}</p>
+          <p className="text-[12px] mt-1" style={{ color: "var(--foreground-muted)" }}>{sub}</p>
         )}
       </div>
 
@@ -57,7 +57,7 @@ export function KpiCard({
             {isUp ? "+" : ""}{trend}%
           </span>
           {trendLabel && (
-            <span className="text-[12px]" style={{ color: "hsl(0 0% 38%)" }}>
+            <span className="text-[12px]" style={{ color: "var(--foreground-muted)" }}>
               {trendLabel}
             </span>
           )}

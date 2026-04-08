@@ -24,12 +24,12 @@ export function BrandLogo({ size = 18, className }: BrandLogoProps) {
       {/* Top arrow — points upper-right, main brand green */}
       <path
         d="M2 4 L13 4 L13 2 L22 7.5 L13 13 L13 11 L2 11 Z"
-        fill="#3ECF8E"
+        style={{ fill: "var(--brand)" }}
       />
       {/* Bottom arrow — points lower-left, deeper green */}
       <path
         d="M22 13 L11 13 L11 11 L2 16.5 L11 22 L11 20 L22 20 Z"
-        fill="#29a869"
+        style={{ fill: "color-mix(in srgb, var(--brand) 72%, black)" }}
       />
     </svg>
   )

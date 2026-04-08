@@ -16,7 +16,7 @@ const events = [
 ]
 
 const TYPE_STYLE: Record<string, { color: string; bg: string; border: string }> = {
-  success: { color: "#3ECF8E",          bg: "#3ECF8E12",              border: "#3ECF8E30" },
+  success: { color: "var(--brand)",      bg: "color-mix(in srgb, var(--brand) 7%, transparent)",  border: "color-mix(in srgb, var(--brand) 19%, transparent)" },
   warning: { color: "hsl(39 100% 57%)", bg: "hsl(39 100% 57%/0.10)", border: "hsl(39 100% 57%/0.28)" },
   error:   { color: "hsl(10 78% 62%)",  bg: "hsl(10 78% 58%/0.10)",  border: "hsl(10 78% 58%/0.28)" },
   info:    { color: "hsl(210 100% 64%)", bg: "hsl(210 100% 56%/0.10)", border: "hsl(210 100% 56%/0.28)" },
@@ -33,12 +33,12 @@ export function ActivityFeed() {
         className="flex items-center justify-between px-5 py-3.5 border-b"
         style={{ borderColor: "var(--border-default)" }}
       >
-        <p className="text-[13px] font-semibold" style={{ color: "hsl(0 0% 88%)" }}>Actividad reciente</p>
+        <p className="text-[13px] font-semibold" style={{ color: "var(--foreground-default)" }}>Actividad reciente</p>
         <button
           className="text-[12px] border-0 bg-transparent cursor-pointer transition-colors"
-          style={{ color: "#3ECF8E" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "#34be7e")}
-          onMouseLeave={e => (e.currentTarget.style.color = "#3ECF8E")}
+          style={{ color: "var(--brand)" }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
+          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
         >
           Ver todo →
         </button>
@@ -63,14 +63,14 @@ export function ActivityFeed() {
                 <ev.icon style={{ width: 12, height: 12, color: s.color }} strokeWidth={1.8} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-medium leading-snug" style={{ color: "hsl(0 0% 82%)" }}>
+                <p className="text-[13px] font-medium leading-snug" style={{ color: "var(--foreground-light)" }}>
                   {ev.title}
                 </p>
-                <p className="text-[11px] mt-0.5 truncate" style={{ color: "hsl(0 0% 44%)" }}>
+                <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--foreground-muted)" }}>
                   {ev.desc}
                 </p>
               </div>
-              <span className="text-[11px] shrink-0 mt-0.5 whitespace-nowrap" style={{ color: "hsl(0 0% 34%)" }}>
+              <span className="text-[11px] shrink-0 mt-0.5 whitespace-nowrap" style={{ color: "var(--foreground-muted)" }}>
                 {ev.time}
               </span>
             </div>

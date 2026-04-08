@@ -21,8 +21,8 @@ const KPI_DATA = [
     trend: 12.5,
     trendLabel: "vs mes anterior",
     icon: DollarSign,
-    iconColor: "#3ECF8E",
-    iconBg: "#3ECF8E14",
+    iconColor: "var(--brand)",
+    iconBg: "color-mix(in srgb, var(--brand) 8%, transparent)",
     sub: "Facturado en Jul 2025",
   },
   {
@@ -60,7 +60,7 @@ const KPI_DATA = [
 /* ── Usage stats ─────────────────────────────────────────────────────────── */
 
 const USAGE_STATS = [
-  { label: "API Requests — uso mensual",   value: 72, display: "72%",         color: "#3ECF8E" },
+  { label: "API Requests — uso mensual",   value: 72, display: "72%",         color: "var(--brand)" },
   { label: "Almacenamiento S3",            value: 48, display: "48% de 2 TB", color: "hsl(210 100% 64%)" },
   { label: "Ancho de banda CDN",           value: 85, display: "85%",         color: "hsl(39 100% 57%)" },
   { label: "Compute — CPU promedio",       value: 34, display: "34%",         color: "hsl(258 80% 72%)" },
@@ -79,7 +79,7 @@ const ALERTS = [
 export default function DashboardPage() {
   return (
     <DashboardLayout orgName="UPER" plan="FREE">
-      <div className="max-w-[1400px] py-6 space-y-6">
+      <div className="flat-surface max-w-[1400px] py-6 space-y-6">
 
         {/* ── Alerts ────────────────────────────────────────────────────── */}
         <div className="flex flex-col gap-2">
@@ -117,8 +117,8 @@ export default function DashboardPage() {
         {/* ── Usage progress stats ───────────────────────────────────────── */}
         <div>
           <div className="mb-3">
-            <p className="text-[13px] font-semibold" style={{ color: "hsl(0 0% 88%)" }}>Uso de recursos</p>
-            <p className="text-[12px] mt-0.5" style={{ color: "hsl(0 0% 44%)" }}>Consumo actual vs límite del plan</p>
+            <p className="text-[13px] font-semibold" style={{ color: "var(--foreground-default)" }}>Uso de recursos</p>
+            <p className="text-[12px] mt-0.5" style={{ color: "var(--foreground-muted)" }}>Consumo actual vs límite del plan</p>
           </div>
           <StatsProgressRow items={USAGE_STATS} />
         </div>

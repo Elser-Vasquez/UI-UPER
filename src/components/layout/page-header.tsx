@@ -46,25 +46,17 @@ interface PageHeaderProps {
 
 /* ── Style constants ────────────────────────────────────────────────────── */
 
-const PANEL_BG     = "hsl(0 0% 11%)"
-const PANEL_BORDER = "hsl(0 0% 20%)"
+const PANEL_BG     = "var(--background-dialog)"
+const PANEL_BORDER = "var(--border-overlay)"
 
 /** Inactive breadcrumb segment — badge style, subtle */
-const CRUMB_INACTIVE =
-  "inline-flex items-center gap-1 rounded-md px-2 h-[28px] text-[12px] leading-none " +
-  "border border-[hsl(0_0%_18%)] bg-[hsl(0_0%_10%)] text-[hsl(0_0%_44%)] " +
-  "transition-colors duration-100 hover:text-[hsl(0_0%_70%)] hover:border-[hsl(0_0%_28%)]"
+const CRUMB_INACTIVE = "crumb-inactive"
 
 /** Active (current) breadcrumb segment — badge style, prominent */
-const CRUMB_ACTIVE =
-  "inline-flex items-center gap-1 rounded-md px-2.5 h-[28px] text-[12px] leading-none font-medium " +
-  "bg-[hsl(0_0%_14%)] border border-[hsl(0_0%_22%)] text-[hsl(0_0%_83%)] " +
-  "transition-colors duration-100"
+const CRUMB_ACTIVE = "crumb-active"
 
 /** Active segment that is also a dropdown trigger */
-const CRUMB_ACTIVE_TRIGGER =
-  CRUMB_ACTIVE +
-  " cursor-pointer hover:bg-[hsl(0_0%_17%)] hover:border-[hsl(0_0%_28%)] outline-none"
+const CRUMB_ACTIVE_TRIGGER = "crumb-active crumb-active-trigger"
 
 /** Sibling list item inside dropdown */
 const SIBLING_ITEM =
@@ -78,11 +70,14 @@ const ACTION_BASE =
 
 const ACTION_VARIANT: Record<NonNullable<PageAction["variant"]>, string> = {
   ghost:
-    "border-[hsl(0_0%_22%)] bg-transparent text-[hsl(0_0%_52%)] " +
-    "hover:bg-[hsl(0_0%_14%)] hover:text-[hsl(0_0%_80%)] hover:border-[hsl(0_0%_28%)]",
+    "border-[var(--border-control)] bg-transparent text-[var(--foreground-lighter)] " +
+    "hover:bg-[var(--background-overlay-hover)] hover:text-[var(--foreground-light)] hover:border-[var(--border-stronger)]",
   primary:
-    "border-transparent bg-[#3ECF8E] text-black " +
-    "hover:bg-[#34be7e]",
+    "border-[color-mix(in_srgb,var(--brand)_35%,transparent)] " +
+    "bg-[color-mix(in_srgb,var(--brand)_10%,transparent)] " +
+    "text-[var(--brand)] " +
+    "hover:bg-[color-mix(in_srgb,var(--brand)_18%,transparent)] " +
+    "hover:border-[color-mix(in_srgb,var(--brand)_55%,transparent)]",
   destructive:
     "border-[hsl(10_78%_38%)] bg-transparent text-[hsl(10_78%_58%)] " +
     "hover:bg-[hsl(10_78%_58%_/_0.08)]",
@@ -110,31 +105,31 @@ function SearchableCrumbPopover({ crumb }: { crumb: BreadcrumbItem }) {
         sideOffset={8}
         className="p-0 w-[260px] overflow-hidden outline-none"
         style={{
-          backgroundColor: "hsl(0 0% 11%)",
-          borderColor: "hsl(0 0% 20%)",
+          backgroundColor: "var(--background-dialog)",
+          borderColor: "var(--border-overlay)",
           borderRadius: 10,
         }}
       >
         {/* Search input */}
         <div
           className="flex items-center gap-2 px-3 py-2.5"
-          style={{ borderBottom: "1px solid hsl(0 0% 18%)" }}
+          style={{ borderBottom: "1px solid var(--border-default)" }}
         >
-          <Search style={{ width: 12, height: 12, color: "hsl(0 0% 40%)", flexShrink: 0 }} />
+          <Search style={{ width: 12, height: 12, color: "var(--foreground-muted)", flexShrink: 0 }} />
           <input
             autoFocus
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Buscar proyecto..."
-            className="flex-1 bg-transparent border-0 outline-none text-[12px] placeholder:text-[hsl(0_0%_36%)]"
-            style={{ color: "hsl(0 0% 80%)" }}
+            className="flex-1 bg-transparent border-0 outline-none text-[12px] placeholder:text-[var(--foreground-muted)]"
+            style={{ color: "var(--foreground-default)" }}
           />
         </div>
 
         {/* Project list */}
         <div className="py-1 max-h-[220px] overflow-y-auto">
           {filtered.length === 0 ? (
-            <p className="px-3 py-3 text-[12px] text-center" style={{ color: "hsl(0 0% 40%)" }}>
+            <p className="px-3 py-3 text-[12px] text-center" style={{ color: "var(--foreground-muted)" }}>
               Sin resultados
             </p>
           ) : (
@@ -149,16 +144,16 @@ function SearchableCrumbPopover({ crumb }: { crumb: BreadcrumbItem }) {
                   className={cn(
                     "flex items-center gap-2.5 px-3 py-2 mx-0.5 rounded-md text-[13px] transition-colors",
                     isCurrent
-                      ? "text-[hsl(0_0%_88%)]"
-                      : "text-[hsl(0_0%_60%)] hover:text-[hsl(0_0%_82%)] hover:bg-[hsl(0_0%_15%)]"
+                      ? "text-[var(--foreground-default)]"
+                      : "text-[var(--foreground-lighter)] hover:text-[var(--foreground-light)] hover:bg-[var(--background-overlay-hover)]"
                   )}
                 >
                   {SibIcon && (
-                    <SibIcon style={{ width: 13, height: 13, flexShrink: 0, color: isCurrent ? "#3ECF8E" : "hsl(0 0% 40%)" }} strokeWidth={1.5} />
+                    <SibIcon style={{ width: 13, height: 13, flexShrink: 0, color: isCurrent ? "var(--brand)" : "var(--foreground-muted)" }} strokeWidth={1.5} />
                   )}
                   <span className="flex-1 truncate">{sib.label}</span>
                   {isCurrent && (
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: "#3ECF8E" }} />
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--brand)" }} />
                   )}
                 </Link>
               )
@@ -168,26 +163,26 @@ function SearchableCrumbPopover({ crumb }: { crumb: BreadcrumbItem }) {
 
         {/* Footer */}
         {crumb.siblingFooter && (
-          <div className="px-2.5 py-2.5" style={{ borderTop: "1px solid hsl(0 0% 18%)" }}>
+          <div className="px-2.5 py-2.5" style={{ borderTop: "1px solid var(--border-default)" }}>
             <Link
               href={crumb.siblingFooter.href}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between w-full px-3 py-1.5 rounded-md text-[12px] border transition-colors"
               style={{
-                color: "hsl(0 0% 56%)",
-                borderColor: "hsl(0 0% 22%)",
+                color: "var(--foreground-lighter)",
+                borderColor: "var(--border-control)",
                 backgroundColor: "transparent",
               }}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLAnchorElement
-                el.style.borderColor = "hsl(0 0% 30%)"
-                el.style.color = "hsl(0 0% 76%)"
-                el.style.backgroundColor = "hsl(0 0% 14%)"
+                el.style.borderColor = "var(--border-stronger)"
+                el.style.color = "var(--foreground-light)"
+                el.style.backgroundColor = "var(--background-overlay-hover)"
               }}
               onMouseLeave={e => {
                 const el = e.currentTarget as HTMLAnchorElement
-                el.style.borderColor = "hsl(0 0% 22%)"
-                el.style.color = "hsl(0 0% 56%)"
+                el.style.borderColor = "var(--border-control)"
+                el.style.color = "var(--foreground-lighter)"
                 el.style.backgroundColor = "transparent"
               }}
             >
@@ -234,7 +229,7 @@ function ActionsPanel({ actions }: { actions: PageAction[] }) {
                   key={idx}
                   onClick={action.onClick}
                   className="flex items-center gap-2.5 px-3 py-2 mx-0.5 rounded-md text-[13px] cursor-pointer"
-                  style={{ color: isDestructive ? "hsl(10 78% 62%)" : "hsl(0 0% 64%)" }}
+                  style={{ color: isDestructive ? "hsl(10 78% 62%)" : "var(--foreground-lighter)" }}
                 >
                   {Icon && <Icon style={{ width: 13, height: 13, flexShrink: 0 }} strokeWidth={1.7} />}
                   <span>{action.label}</span>
@@ -244,6 +239,7 @@ function ActionsPanel({ actions }: { actions: PageAction[] }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
 
       {/* ── Desktop: expanded buttons + collapse toggle ─────────────────── */}
       <div className="hidden md:flex items-center gap-1.5">
@@ -335,8 +331,8 @@ export function PageHeader({ breadcrumbs, actions = [] }: PageHeaderProps) {
                               SIBLING_ITEM,
                               "w-full transition-colors",
                               isCurrent
-                                ? "text-[hsl(0_0%_88%)]"
-                                : "text-[hsl(0_0%_60%)] hover:text-[hsl(0_0%_82%)]"
+                                ? "text-[var(--foreground-default)]"
+                                : "text-[var(--foreground-lighter)] hover:text-[var(--foreground-light)] hover:bg-[var(--background-overlay-hover)]"
                             )}
                           >
                             {SibIcon && (
@@ -346,7 +342,7 @@ export function PageHeader({ breadcrumbs, actions = [] }: PageHeaderProps) {
                             {isCurrent && (
                               <span
                                 className="w-1.5 h-1.5 rounded-full shrink-0"
-                                style={{ backgroundColor: "#3ECF8E" }}
+                                style={{ backgroundColor: "var(--brand)" }}
                               />
                             )}
                           </Link>
@@ -357,11 +353,11 @@ export function PageHeader({ breadcrumbs, actions = [] }: PageHeaderProps) {
                     {/* Footer link */}
                     {crumb.siblingFooter && (
                       <>
-                        <div className="mx-2 my-1 h-px" style={{ backgroundColor: "hsl(0 0% 18%)" }} />
+                        <div className="mx-2 my-1 h-px" style={{ backgroundColor: "var(--border-default)" }} />
                         <DropdownMenuItem className="p-0 mx-0.5" style={{ background: "transparent" }}>
                           <Link
                             href={crumb.siblingFooter.href}
-                            className={cn(SIBLING_ITEM, "w-full transition-colors text-[hsl(0_0%_46%)] hover:text-[hsl(0_0%_70%)]")}
+                            className={cn(SIBLING_ITEM, "w-full transition-colors text-[var(--foreground-muted)] hover:text-[var(--foreground-light)] hover:bg-[var(--background-overlay-hover)]")}
                           >
                             <span className="flex-1 text-[12px]">{crumb.siblingFooter.label}</span>
                             <ChevronRight style={{ width: 11, height: 11, flexShrink: 0 }} strokeWidth={1.8} />

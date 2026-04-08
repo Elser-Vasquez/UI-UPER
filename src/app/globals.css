@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 /* ─── Supabase Design System Tokens ──────────────────────────────────────── */
 
@@ -194,7 +195,7 @@
   --surface-200:                hsl(0 0% 93%);
   --surface-300:                hsl(0 0% 88%);
   --background-control:         hsl(0 0% 96%);
-  --background-overlay-hover:   hsl(0 0% 95%);
+  --background-overlay-hover:   hsl(0 0% 96%);
   --background-selection:       hsl(0 0% 90%);
 
   --foreground-default:  hsl(0 0% 9%);
@@ -206,6 +207,13 @@
   --border-strong:    hsl(0 0% 80%);
   --border-stronger:  hsl(0 0% 70%);
   --border-control:   hsl(0 0% 84%);
+  --border-overlay:   hsl(0 0% 82%);
+  --border-secondary: hsl(0 0% 90%);
+  --border-muted:     hsl(0 0% 90%);
+
+  --background-dialog:      hsl(0 0% 100%);
+  --background-alternative: hsl(0 0% 97%);
+  --background-muted:       hsl(0 0% 96%);
 }
 
 /* ─── Base layer ──────────────────────────────────────────────────────── */
@@ -268,6 +276,206 @@
   .bg-selection             { background-color: var(--background-selection); }
 }
 
+/* ─── Theme-aware component classes ──────────────────────────────────────── */
+/* These classes use CSS variables so they work in both dark and light modes.  */
+/* Components should use these instead of hardcoded hsl() dark-only values.   */
+
+/* ── Sidebar nav items ────────────────────────────────────────────────────── */
+
+.nav-item-active {
+  background-color: var(--background-selection);
+  color: var(--foreground-default);
+  font-weight: 500;
+}
+.nav-item-inactive {
+  color: var(--foreground-lighter);
+}
+.nav-item-inactive:hover {
+  background-color: var(--background-overlay-hover);
+  color: var(--foreground-light);
+}
+.nav-item-muted {
+  color: var(--foreground-muted);
+}
+.nav-item-muted:hover {
+  background-color: var(--background-overlay-hover);
+  color: var(--foreground-lighter);
+}
+
+/* ── Breadcrumb segments ──────────────────────────────────────────────────── */
+
+.crumb-inactive {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-md);
+  padding: 0 8px;
+  height: 28px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid var(--border-default);
+  background-color: transparent;
+  color: var(--foreground-muted);
+  transition: color 100ms, border-color 100ms;
+  white-space: nowrap;
+}
+.crumb-inactive:hover {
+  color: var(--foreground-light);
+  border-color: var(--border-strong);
+}
+.crumb-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-md);
+  padding: 0 10px;
+  height: 28px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  background-color: var(--surface-200);
+  border: 1px solid var(--border-strong);
+  color: var(--foreground-default);
+  transition: color 100ms, border-color 100ms, background-color 100ms;
+  white-space: nowrap;
+}
+.crumb-active-trigger {
+  cursor: pointer;
+  outline: none;
+}
+.crumb-active-trigger:hover {
+  background-color: var(--surface-300);
+  border-color: var(--border-stronger);
+}
+
+/* ── Page header action buttons ───────────────────────────────────────────── */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  transition: background-color 150ms, color 150ms, border-color 150ms, opacity 150ms;
+  cursor: pointer;
+  border: 1px solid transparent;
+  user-select: none;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.action-btn-ghost {
+  border-color: var(--border-strong);
+  background-color: transparent;
+  color: var(--foreground-lighter);
+}
+.action-btn-ghost:hover {
+  background-color: var(--background-overlay-hover);
+  color: var(--foreground-light);
+  border-color: var(--border-stronger);
+}
+.action-btn-primary {
+  border-color: transparent;
+  background-color: var(--brand);
+  color: var(--brand-foreground);
+}
+.action-btn-primary:hover {
+  opacity: 0.88;
+}
+.action-btn-destructive {
+  border-color: hsl(10 78% 38%);
+  background-color: transparent;
+  color: hsl(10 78% 62%);
+}
+.action-btn-destructive:hover {
+  background-color: hsl(10 78% 58% / 0.08);
+}
+.action-btn-square {
+  width: 28px;
+  padding: 0;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Dropdown / popover panels ────────────────────────────────────────────── */
+/* Overrides the hardcoded dark bg in page-header popovers */
+
+.panel-bg {
+  background-color: var(--surface-100);
+  border-color: var(--border-default);
+}
+
+/* ── Sibling list items inside breadcrumb dropdowns ──────────────────────── */
+
+.sibling-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  margin: 0 2px;
+  font-size: 13px;
+  color: var(--foreground-lighter);
+  transition: color 100ms, background-color 100ms;
+  width: 100%;
+}
+.sibling-item:hover {
+  color: var(--foreground-light);
+  background-color: var(--background-overlay-hover);
+}
+.sibling-item-current {
+  color: var(--foreground-default);
+}
+.sibling-footer-item {
+  font-size: 12px;
+  color: var(--foreground-muted);
+}
+.sibling-footer-item:hover {
+  color: var(--foreground-light);
+  background-color: var(--background-overlay-hover);
+  border-color: var(--border-strong) !important;
+}
+
+/* ── Project card hover ───────────────────────────────────────────────────── */
+/* Dark: green glow brand. Light: neutral border, sin glow. */
+
+.project-card {
+  border-color: var(--border-default);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.project-card:hover {
+  border-color: color-mix(in srgb, var(--brand) 35%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--brand) 15%, transparent),
+    inset 0 0 20px color-mix(in srgb, var(--brand) 5%, transparent);
+}
+.light .project-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
+
+/* ── Light mode overrides for surface separators / panel internals ────────── */
+
+/* Breadcrumbs light mode: transparent base, hover fills in */
+.light .crumb-inactive              { background-color: transparent; }
+.light .crumb-inactive:hover        { background-color: var(--background-overlay-hover); }
+.light .crumb-active                { background-color: transparent; }
+.light .crumb-active-trigger:hover  { background-color: var(--background-overlay-hover); border-color: var(--border-strong); }
+.light .nav-item-active             { background-color: var(--background-selection); }
+
+/* ── Flat surface: en light mode los cards/paneles usan el mismo fondo
+      que la página (blanco), eliminando la elevación gris. Aplica esta
+      clase al contenedor de la página para activarlo. En dark mode no
+      tiene efecto — los cards conservan su surface-100 oscuro.         ── */
+.light .flat-surface {
+  --surface-100: var(--background-default);
+  --card:        var(--background-default);
+}
+
 /* ═══════════════════════════════════════════════
    AUTH SPLIT LAYOUT
 ═══════════════════════════════════════════════ */
@@ -290,7 +498,7 @@
   overflow-y: auto;
   background: rgba(8, 8, 14, 0.82);
   backdrop-filter: blur(6px);
-  border-right: 1px solid rgba(62, 207, 142, 0.08);
+  border-right: 1px solid color-mix(in srgb, var(--brand) 8%, transparent);
 }
 
 .auth-form-inner {
@@ -337,7 +545,7 @@
 }
 .auth-back-btn:hover {
   color: var(--foreground-default);
-  border-color: rgba(62, 207, 142, 0.25);
+  border-color: color-mix(in srgb, var(--brand) 25%, transparent);
   background: var(--surface-200);
 }
 
@@ -519,8 +727,8 @@
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  background: rgba(62, 207, 142, 0.1);
-  border: 1px solid rgba(62, 207, 142, 0.25);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -556,8 +764,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(62, 207, 142, 0.1);
-  border: 1px solid rgba(62, 207, 142, 0.3);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -633,8 +841,8 @@
 .auth-feature-icon {
   width: 38px;
   height: 38px;
-  background: rgba(62, 207, 142, 0.1);
-  border: 1px solid rgba(62, 207, 142, 0.25);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
   border-radius: 9px;
   display: flex;
   align-items: center;
@@ -737,7 +945,7 @@
 .auth-bg-orb-1 {
   width: 380px;
   height: 380px;
-  background: rgba(62, 207, 142, 0.13);
+  background: color-mix(in srgb, var(--brand) 13%, transparent);
   top: -100px;
   right: -80px;
   animation: authOrb1 9s ease-in-out infinite;
@@ -755,7 +963,7 @@
 .auth-bg-orb-3 {
   width: 220px;
   height: 220px;
-  background: rgba(62, 207, 142, 0.06);
+  background: color-mix(in srgb, var(--brand) 6%, transparent);
   bottom: -60px;
   right: 20%;
   animation: authOrb3 7s ease-in-out infinite;
@@ -765,8 +973,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(62, 207, 142, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(62, 207, 142, 0.04) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--brand) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--brand) 4%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 

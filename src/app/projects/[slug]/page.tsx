@@ -11,14 +11,14 @@ import { PROJECTS_MAP } from "@/data/projects"
 /* ── Token maps ─────────────────────────────────────────────────────────── */
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  active: { label: "Activo",  color: "#3ECF8E",         bg: "#3ECF8E18",              border: "#3ECF8E44" },
-  paused: { label: "Pausado", color: "hsl(0 0% 52%)",   bg: "hsl(0 0% 18%)",          border: "hsl(0 0% 26%)" },
+  active: { label: "Activo",  color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 10%, transparent)", border: "color-mix(in srgb, var(--brand) 27%, transparent)" },
+  paused: { label: "Pausado", color: "var(--foreground-lighter)",   bg: "var(--border-default)",          border: "var(--border-stronger)" },
   error:  { label: "Error",   color: "hsl(10 78% 62%)", bg: "hsl(10 78% 58% / 0.12)", border: "hsl(10 78% 58% / 0.3)" },
 }
 
 const PLAN_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
-  FREE: { color: "hsl(0 0% 52%)",    bg: "hsl(0 0% 14%)",           border: "hsl(0 0% 26%)" },
-  NANO: { color: "#3ECF8E",          bg: "#3ECF8E14",                border: "#3ECF8E38" },
+  FREE: { color: "var(--foreground-lighter)",    bg: "var(--surface-100)",           border: "var(--border-stronger)" },
+  NANO: { color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 8%, transparent)",  border: "color-mix(in srgb, var(--brand) 20%, transparent)" },
   PRO:  { color: "hsl(258 80% 72%)", bg: "hsl(258 80% 60% / 0.12)", border: "hsl(258 80% 60% / 0.3)" },
 }
 
@@ -42,10 +42,10 @@ function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label:
       style={{ borderColor: "var(--border-default)" }}
     >
       <div className="flex items-center gap-2">
-        <Icon style={{ width: 13, height: 13, color: "hsl(0 0% 38%)", flexShrink: 0 }} strokeWidth={1.6} />
-        <span className="text-[12px]" style={{ color: "hsl(0 0% 46%)" }}>{label}</span>
+        <Icon style={{ width: 13, height: 13, color: "var(--foreground-muted)", flexShrink: 0 }} strokeWidth={1.6} />
+        <span className="text-[12px]" style={{ color: "var(--foreground-lighter)" }}>{label}</span>
       </div>
-      <span className="text-[13px] font-medium" style={{ color: "hsl(0 0% 76%)" }}>{value}</span>
+      <span className="text-[13px] font-medium" style={{ color: "var(--foreground-light)" }}>{value}</span>
     </div>
   )
 }
@@ -66,20 +66,20 @@ function ActionRow({
     >
       <div className="flex items-start gap-3 min-w-0">
         <Icon
-          style={{ width: 14, height: 14, color: isDestructive ? "hsl(10 78% 62%)" : "hsl(0 0% 50%)", marginTop: 2, flexShrink: 0 }}
+          style={{ width: 14, height: 14, color: isDestructive ? "hsl(10 78% 62%)" : "var(--foreground-lighter)", marginTop: 2, flexShrink: 0 }}
           strokeWidth={1.6}
         />
         <div className="min-w-0">
-          <p className="text-[13px] font-medium" style={{ color: isDestructive ? "hsl(10 78% 66%)" : "hsl(0 0% 82%)" }}>
+          <p className="text-[13px] font-medium" style={{ color: isDestructive ? "hsl(10 78% 66%)" : "var(--foreground-light)" }}>
             {label}
           </p>
-          <p className="text-[12px] mt-0.5 leading-snug" style={{ color: "hsl(0 0% 44%)" }}>{description}</p>
+          <p className="text-[12px] mt-0.5 leading-snug" style={{ color: "var(--foreground-muted)" }}>{description}</p>
         </div>
       </div>
       <button
         className="shrink-0 h-7 px-3 ml-4 rounded-md text-[12px] font-medium border transition-colors cursor-pointer"
         style={{
-          color: isDestructive ? "hsl(10 78% 62%)" : "hsl(0 0% 64%)",
+          color: isDestructive ? "hsl(10 78% 62%)" : "var(--foreground-light)",
           borderColor: isDestructive ? "hsl(10 78% 40%)" : "var(--border-strong)",
           backgroundColor: "transparent",
         }}
@@ -95,8 +95,8 @@ function ActionRow({
 function SectionLabel({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
     <div className="flex items-center gap-2 mb-3">
-      <Icon style={{ width: 13, height: 13, color: "hsl(0 0% 42%)" }} strokeWidth={1.6} />
-      <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "hsl(0 0% 42%)" }}>
+      <Icon style={{ width: 13, height: 13, color: "var(--foreground-muted)" }} strokeWidth={1.6} />
+      <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "var(--foreground-muted)" }}>
         {label}
       </p>
     </div>
@@ -113,8 +113,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     return (
       <DashboardLayout orgName="UPER" plan="FREE">
         <div className="flex flex-col items-center justify-center py-32">
-          <p className="text-[14px]" style={{ color: "hsl(0 0% 52%)" }}>
-            Proyecto <span style={{ color: "hsl(0 0% 72%)" }}>"{slug}"</span> no encontrado.
+          <p className="text-[14px]" style={{ color: "var(--foreground-lighter)" }}>
+            Proyecto <span style={{ color: "var(--foreground-light)" }}>"{slug}"</span> no encontrado.
           </p>
         </div>
       </DashboardLayout>
@@ -138,17 +138,17 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         pr-6 / pl-6 dan el mismo espaciado interior hacia el divisor.
         Resultado: 24px en los 4 lados de cada columna = igual que otras páginas.
       */}
-      <div className="-mx-6 md:-mx-10 flex flex-col lg:flex-row lg:h-full">
+      <div className="flat-surface -mx-6 md:-mx-10 flex flex-col lg:flex-row lg:h-full">
 
         {/* ══ LEFT — 50% ═══════════════════════════════════════════════ */}
         <div className="flex-1 lg:overflow-y-auto py-6 px-6 md:px-10 flex flex-col gap-6">
 
           {/* Project header */}
           <div>
-            <h1 className="text-[22px] font-semibold leading-snug" style={{ color: "hsl(0 0% 92%)" }}>
+            <h1 className="text-[22px] font-semibold leading-snug" style={{ color: "var(--foreground-default)" }}>
               {project.name}
             </h1>
-            <p className="text-[13px] mt-1.5 leading-relaxed" style={{ color: "hsl(0 0% 48%)" }}>
+            <p className="text-[13px] mt-1.5 leading-relaxed" style={{ color: "var(--foreground-lighter)" }}>
               {project.description}
             </p>
             <div className="flex items-center gap-2 mt-3">
@@ -176,14 +176,14 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 >
                   <div
                     className="flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5"
-                    style={{ backgroundColor: "var(--surface-300)", color: "hsl(0 0% 52%)" }}
+                    style={{ backgroundColor: "var(--surface-300)", color: "var(--foreground-lighter)" }}
                   >
                     <item.icon style={{ width: 11, height: 11 }} strokeWidth={1.6} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px]" style={{ color: "hsl(0 0% 74%)" }}>{item.text}</p>
+                    <p className="text-[13px]" style={{ color: "var(--foreground-light)" }}>{item.text}</p>
                   </div>
-                  <span className="text-[11px] shrink-0 mt-0.5" style={{ color: "hsl(0 0% 38%)" }}>
+                  <span className="text-[11px] shrink-0 mt-0.5" style={{ color: "var(--foreground-muted)" }}>
                     {item.time}
                   </span>
                 </div>

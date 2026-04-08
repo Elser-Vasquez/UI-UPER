@@ -6,7 +6,7 @@ export default function ProjectSettingsPage() {
   return (
     <DashboardLayout orgName="UPER" plan="FREE">
 
-      <div className="max-w-[800px] py-8 space-y-6">
+      <div className="flat-surface max-w-[800px] py-8 space-y-6">
         <div>
           <h2 className="text-[18px] font-semibold text-foreground-default">General settings</h2>
           <p className="text-[13px] mt-1 text-foreground-muted">

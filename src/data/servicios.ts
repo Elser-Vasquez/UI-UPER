@@ -1,86 +1,35 @@
 export interface ServicioData {
+  id: string
   name: string
-  displayName: string
+  project: string
   type: string
-  provider: string
+  region: string
   plan: string
   status: string
-  cost: string
+  contractId: string
   createdAt: string
   updatedAt: string
   description: string
 }
 
 export const ALL_SERVICIOS: ServicioData[] = [
-  {
-    name: "streaming-cdn",
-    displayName: "Streaming CDN",
-    type: "CDN",
-    provider: "AWS | us-east-1",
-    plan: "PRO",
-    status: "active",
-    cost: "$120/mo",
-    createdAt: "Jan 5, 2025",
-    updatedAt: "1 hour ago",
-    description: "Red de distribución de contenido para la plataforma OmniTV.",
-  },
-  {
-    name: "storage-s3",
-    displayName: "Object Storage",
-    type: "Storage",
-    provider: "AWS | us-west-2",
-    plan: "NANO",
-    status: "active",
-    cost: "$35/mo",
-    createdAt: "Feb 14, 2025",
-    updatedAt: "3 hours ago",
-    description: "Almacenamiento de objetos para assets estáticos y backups.",
-  },
-  {
-    name: "email-transaccional",
-    displayName: "Email Transaccional",
-    type: "Email",
-    provider: "SES | us-east-1",
-    plan: "FREE",
-    status: "active",
-    cost: "$0/mo",
-    createdAt: "Mar 1, 2025",
-    updatedAt: "1 day ago",
-    description: "Envío de correos transaccionales para notificaciones y alertas.",
-  },
-  {
-    name: "compute-worker",
-    displayName: "Compute Worker",
-    type: "Compute",
-    provider: "AWS | eu-west-1",
-    plan: "NANO",
-    status: "paused",
-    cost: "$45/mo",
-    createdAt: "Nov 20, 2024",
-    updatedAt: "5 days ago",
-    description: "Workers de procesamiento en background para tareas asíncronas.",
-  },
-  {
-    name: "message-queue",
-    displayName: "Message Queue",
-    type: "Queue",
-    provider: "AWS | us-east-1",
-    plan: "PRO",
-    status: "error",
-    cost: "$80/mo",
-    createdAt: "Dec 10, 2024",
-    updatedAt: "2 days ago",
-    description: "Cola de mensajes para comunicación entre microservicios.",
-  },
+  { id: "SVC-001", name: "API Gateway Core",  project: "api-gateway",    type: "API Gateway",       region: "AWS | us-west-2",    plan: "PRO",  status: "active", contractId: "CTR-001", createdAt: "Mar 3, 2025",  updatedAt: "1 hour ago",   description: "Gateway centralizado para los microservicios del ecosistema." },
+  { id: "SVC-002", name: "OmniTV Streaming",  project: "omnitv-v4.0.0",  type: "Streaming",         region: "AWS | us-east-1",    plan: "NANO", status: "active", contractId: "CTR-002", createdAt: "Jan 12, 2025", updatedAt: "2 hours ago",  description: "Servicio de streaming principal de la plataforma OmniTV." },
+  { id: "SVC-003", name: "Auth & Sessions",   project: "auth-service",   type: "Autenticación",     region: "AWS | sa-east-1",    plan: "NANO", status: "active", contractId: "CTR-003", createdAt: "Feb 19, 2025", updatedAt: "5 hours ago",  description: "Gestión de autenticación y sesiones de usuarios." },
+  { id: "SVC-004", name: "CDN Global",        project: "cdn-assets",     type: "CDN",               region: "AWS | us-east-1",    plan: "PRO",  status: "active", contractId: "CTR-004", createdAt: "Apr 1, 2025",  updatedAt: "30 min ago",   description: "Distribución global de activos estáticos y media." },
+  { id: "SVC-005", name: "Message Queue",     project: "message-queue",  type: "Cola de mensajes",  region: "AWS | eu-central-1", plan: "TEAM", status: "error",  contractId: "CTR-005", createdAt: "Dec 5, 2024",  updatedAt: "1 hour ago",   description: "Cola de mensajes para procesamiento asíncrono de eventos." },
+  { id: "SVC-006", name: "Analytics DB",      project: "analytics-db",   type: "Base de datos",     region: "AWS | eu-west-1",    plan: "FREE", status: "paused", contractId: "CTR-006", createdAt: "Nov 8, 2024",  updatedAt: "3 days ago",   description: "Base de datos de analíticas pendiente de migración." },
+  { id: "SVC-007", name: "OmniTV Storage",    project: "omnitv-v4.0.0",  type: "Almacenamiento",    region: "AWS | us-east-1",    plan: "NANO", status: "active", contractId: "CTR-007", createdAt: "Jan 15, 2025", updatedAt: "4 hours ago",  description: "Almacenamiento de assets y media para OmniTV." },
+  { id: "SVC-008", name: "Gateway Auth",      project: "api-gateway",    type: "Autenticación",     region: "AWS | us-west-2",    plan: "PRO",  status: "active", contractId: "CTR-008", createdAt: "Mar 10, 2025", updatedAt: "2 days ago",   description: "Capa de autenticación y autorización del API Gateway." },
 ]
 
 export const SERVICIOS_MAP: Record<string, ServicioData> = Object.fromEntries(
-  ALL_SERVICIOS.map(s => [s.name, s])
+  ALL_SERVICIOS.map(s => [s.id, s])
 )
 
 export function getRecentServicioSiblings(count = 5) {
   return ALL_SERVICIOS.slice(-count).map(s => ({
-    label: s.displayName,
-    href: `/servicios/${s.name}`,
+    label: s.name,
+    href: `/servicios/${s.id.toLowerCase()}`,
   }))
 }

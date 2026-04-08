@@ -21,16 +21,17 @@ const APP_VERSION = "v1.0.0"
 /** All three menus open at the same distance from their trigger */
 const MENU_OFFSET = 10
 
-/** Same dark surface for every panel */
-const PANEL_BG     = "hsl(0 0% 11%)"
-const PANEL_BORDER = "hsl(0 0% 20%)"
-const DIVIDER      = "hsl(0 0% 18%)"
+/** Theme-aware panel surfaces using CSS variables */
+const PANEL_BG     = "var(--background-dialog)"
+const PANEL_BORDER = "var(--border-overlay)"
+const DIVIDER      = "var(--border-default)"
 
 /** Circular icon button (Help, Bell, Avatar trigger) */
 const ICON_BTN =
   "flex items-center justify-center w-[30px] h-[30px] rounded-full cursor-pointer " +
-  "border border-[hsl(0_0%_22%)] bg-transparent transition-all duration-150 " +
-  "text-[hsl(0_0%_50%)] hover:border-[hsl(0_0%_32%)] hover:bg-[hsl(0_0%_14%)] hover:text-[hsl(0_0%_80%)]"
+  "border border-[var(--border-control)] bg-transparent transition-all duration-150 " +
+  "text-[var(--foreground-lighter)] hover:border-[var(--border-stronger)] hover:bg-[var(--background-overlay-hover)] hover:text-[var(--foreground-light)] " +
+  "hover:ring-2 hover:ring-[color-mix(in_srgb,var(--brand)_18%,transparent)]"
 
 /** Row item shared by Help and Avatar menus */
 const MENU_ITEM =
@@ -45,7 +46,7 @@ const notifications = [
 ]
 
 const NOTIF_ICON: Record<string, React.ReactNode> = {
-  success: <CheckCircle2 style={{ width: 13, height: 13, color: "#3ECF8E",               flexShrink: 0, marginTop: 2 }} />,
+  success: <CheckCircle2 style={{ width: 13, height: 13, color: "var(--brand)",           flexShrink: 0, marginTop: 2 }} />,
   info:    <Info         style={{ width: 13, height: 13, color: "hsl(210 100% 60%)",     flexShrink: 0, marginTop: 2 }} />,
   warning: <TriangleAlert style={{ width: 13, height: 13, color: "hsl(39 100% 57%)",    flexShrink: 0, marginTop: 2 }} />,
   error:   <AlertCircle  style={{ width: 13, height: 13, color: "hsl(10 78% 58%)",      flexShrink: 0, marginTop: 2 }} />,
@@ -74,16 +75,16 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
           <Menu style={{ width: 16, height: 16 }} strokeWidth={1.8} />
         </button>
         <div className="flex items-center justify-center shrink-0"
-          style={{ width: 30, height: 30, borderRadius: "50%", backgroundColor: "hsl(0 0% 10%)", border: "1px solid hsl(0 0% 22%)" }}>
+          style={{ width: 30, height: 30, borderRadius: "50%", backgroundColor: "var(--surface-100)", border: "1px solid var(--border-control)" }}>
           <BrandLogo size={17} />
         </div>
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-[17px] font-bold leading-none tracking-tight"
-            style={{ color: "hsl(0 0% 92%)", fontFamily: "var(--font-nunito)" }}>
-            {orgName.toUpperCase()}<span style={{ color: "#3ECF8E" }}>.</span>
+            style={{ color: "var(--foreground-default)", fontFamily: "var(--font-nunito)" }}>
+            {orgName.toUpperCase()}<span style={{ color: "var(--brand)" }}>.</span>
           </span>
           <span className="inline-flex items-center rounded px-1 py-[2px] text-[9px] font-medium tracking-widest leading-none border shrink-0"
-            style={{ color: "#3ECF8E", borderColor: "#29a86944", backgroundColor: "#3ECF8E12" }}>
+            style={{ color: "var(--brand)", borderColor: "color-mix(in srgb, var(--brand) 25%, transparent)", backgroundColor: "color-mix(in srgb, var(--brand) 8%, transparent)" }}>
             {plan}
           </span>
         </div>
@@ -96,21 +97,21 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
       <div className="flex items-center gap-1.5">
 
         {/* Feedback */}
-        <button className="hidden sm:block px-2.5 py-1 rounded text-[13px] transition-colors cursor-pointer border-0 bg-transparent text-[hsl(0_0%_48%)] hover:text-[hsl(0_0%_78%)] hover:bg-[hsl(0_0%_14%)]">
+        <button className="hidden sm:block px-2.5 py-1 rounded text-[13px] transition-colors cursor-pointer border-0 bg-transparent text-[var(--foreground-lighter)] hover:text-[var(--foreground-light)] hover:bg-[var(--background-overlay-hover)]">
           Feedback
         </button>
 
         {/* Search */}
-        <button className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded text-[13px] transition-colors cursor-pointer border-0 bg-transparent text-[hsl(0_0%_48%)] hover:text-[hsl(0_0%_78%)] hover:bg-[hsl(0_0%_14%)]">
+        <button className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded text-[13px] transition-colors cursor-pointer border-0 bg-transparent text-[var(--foreground-lighter)] hover:text-[var(--foreground-light)] hover:bg-[var(--background-overlay-hover)]">
           <Search style={{ width: 13, height: 13 }} strokeWidth={1.8} />
           <span>Search...</span>
           <kbd className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-medium leading-none border"
-            style={{ color: "hsl(0 0% 38%)", borderColor: "hsl(0 0% 26%)", backgroundColor: "hsl(0 0% 12%)" }}>
+            style={{ color: "var(--foreground-muted)", borderColor: "var(--border-strong)", backgroundColor: "var(--surface-100)" }}>
             <Command style={{ width: 10, height: 10 }} />K
           </kbd>
         </button>
 
-        <div className="hidden sm:block w-px h-4 bg-[hsl(0_0%_22%)]" />
+        <div className="hidden sm:block w-px h-4 bg-[var(--border-control)]" />
 
         {/* ── Help ──────────────────────────────────────────────────────── */}
         <DropdownMenu>
@@ -125,7 +126,7 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
           >
             {/* Section label */}
             <p className="px-4 pt-2 pb-1 text-[11px] font-medium uppercase tracking-widest"
-              style={{ color: "hsl(0 0% 36%)" }}>
+              style={{ color: "var(--foreground-muted)" }}>
               Help & Resources
             </p>
             <DropdownMenuSeparator style={{ backgroundColor: DIVIDER }} />
@@ -136,16 +137,16 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
               { icon: Zap,          label: "Changelog",      sub: "What's new" },
               { icon: ExternalLink, label: "Status page",    sub: null },
             ].map(({ icon: Icon, label, sub }) => (
-              <DropdownMenuItem key={label} className={cn(MENU_ITEM)} style={{ color: "hsl(0 0% 72%)" }}>
+              <DropdownMenuItem key={label} className={cn(MENU_ITEM)} style={{ color: "var(--foreground-light)" }}>
                 <Icon style={{ width: 14, height: 14, flexShrink: 0 }} strokeWidth={1.5} />
                 <span className="flex-1 text-[13px]">{label}</span>
-                {sub && <span className="text-[11px]" style={{ color: "hsl(0 0% 36%)" }}>{sub}</span>}
+                {sub && <span className="text-[11px]" style={{ color: "var(--foreground-muted)" }}>{sub}</span>}
               </DropdownMenuItem>
             ))}
 
             <DropdownMenuSeparator style={{ backgroundColor: DIVIDER }} />
 
-            <DropdownMenuItem className={cn(MENU_ITEM)} style={{ color: "hsl(0 0% 60%)" }}>
+            <DropdownMenuItem className={cn(MENU_ITEM)} style={{ color: "var(--foreground-lighter)" }}>
               <AlertCircle style={{ width: 14, height: 14, flexShrink: 0 }} strokeWidth={1.5} />
               <span className="text-[13px]">Report a bug</span>
             </DropdownMenuItem>
@@ -154,9 +155,9 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
 
             {/* Version */}
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-[12px]" style={{ color: "hsl(0 0% 36%)" }}>Version</span>
+              <span className="text-[12px]" style={{ color: "var(--foreground-muted)" }}>Version</span>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded"
-                style={{ color: "#3ECF8E", backgroundColor: "#3ECF8E10", border: "1px solid #3ECF8E28" }}>
+                style={{ color: "var(--brand)", backgroundColor: "color-mix(in srgb, var(--brand) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--brand) 22%, transparent)" }}>
                 {APP_VERSION}
               </span>
             </div>
@@ -167,7 +168,7 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
         <Popover>
           <PopoverTrigger className={cn(ICON_BTN, "relative outline-none")} aria-label="Notifications">
             <Bell style={{ width: 14, height: 14 }} strokeWidth={1.6} />
-            <span className="absolute top-[7px] right-[7px] w-1.5 h-1.5 rounded-full bg-[#3ECF8E]" />
+            <span className="absolute top-[7px] right-[7px] w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           </PopoverTrigger>
 
           <PopoverContent
@@ -178,11 +179,11 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b"
               style={{ borderColor: DIVIDER }}>
-              <span className="text-[13px] font-semibold" style={{ color: "hsl(0 0% 88%)" }}>
+              <span className="text-[13px] font-semibold" style={{ color: "var(--foreground-default)" }}>
                 Notifications
               </span>
               <button className="text-[12px] transition-colors border-0 bg-transparent cursor-pointer"
-                style={{ color: "#3ECF8E" }}>
+                style={{ color: "var(--brand)" }}>
                 Mark all read
               </button>
             </div>
@@ -190,14 +191,14 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
             {/* Items */}
             {notifications.map((n, i) => (
               <div key={n.id}
-                className="flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-[hsl(0_0%_14%)]"
+                className="flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-[var(--background-overlay-hover)]"
                 style={{ borderBottom: i < notifications.length - 1 ? `1px solid ${DIVIDER}` : "none" }}>
                 {NOTIF_ICON[n.type]}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] leading-snug" style={{ color: "hsl(0 0% 86%)" }}>{n.title}</p>
-                  <p className="text-[11px] mt-0.5 truncate" style={{ color: "hsl(0 0% 46%)" }}>{n.desc}</p>
+                  <p className="text-[13px] leading-snug" style={{ color: "var(--foreground-default)" }}>{n.title}</p>
+                  <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--foreground-muted)" }}>{n.desc}</p>
                 </div>
-                <span className="text-[10px] shrink-0 mt-0.5" style={{ color: "hsl(0 0% 36%)" }}>
+                <span className="text-[10px] shrink-0 mt-0.5" style={{ color: "var(--foreground-muted)" }}>
                   {n.time}
                 </span>
               </div>
@@ -205,8 +206,8 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
 
             {/* Footer */}
             <div className="border-t" style={{ borderColor: DIVIDER }}>
-              <button className="w-full py-2.5 text-[12px] text-center transition-colors cursor-pointer border-0 bg-transparent hover:bg-[hsl(0_0%_14%)]"
-                style={{ color: "hsl(0 0% 50%)" }}>
+              <button className="w-full py-2.5 text-[12px] text-center transition-colors cursor-pointer border-0 bg-transparent hover:bg-[var(--background-overlay-hover)]"
+                style={{ color: "var(--foreground-lighter)" }}>
                 View all notifications →
               </button>
             </div>
@@ -215,14 +216,8 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
 
         {/* ── Avatar / Profile ──────────────────────────────────────────── */}
         <DropdownMenu>
-          <DropdownMenuTrigger
-            className={cn(
-              "flex items-center justify-center w-[30px] h-[30px] rounded-full cursor-pointer outline-none",
-              "border border-[hsl(0_0%_22%)] bg-[hsl(0_0%_12%)] transition-all duration-150",
-              "hover:border-[hsl(0_0%_32%)] hover:ring-2 hover:ring-[#3ECF8E33]"
-            )}
-          >
-            <User style={{ width: 14, height: 14, color: "hsl(0 0% 60%)" }} strokeWidth={1.6} />
+          <DropdownMenuTrigger className={cn(ICON_BTN, "outline-none")}>
+            <User style={{ width: 14, height: 14, color: "var(--foreground-lighter)" }} strokeWidth={1.6} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
@@ -233,12 +228,12 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
             {/* User info */}
             <div className="flex items-center gap-3 px-4 py-3">
               <div className="flex items-center justify-center w-8 h-8 rounded-full shrink-0"
-                style={{ backgroundColor: "hsl(0 0% 16%)", border: "1px solid hsl(0 0% 24%)" }}>
-                <User style={{ width: 14, height: 14, color: "hsl(0 0% 55%)" }} strokeWidth={1.5} />
+                style={{ backgroundColor: "var(--surface-200)", border: "1px solid var(--border-strong)" }}>
+                <User style={{ width: 14, height: 14, color: "var(--foreground-lighter)" }} strokeWidth={1.5} />
               </div>
               <div className="min-w-0">
-                <p className="text-[13px] font-medium truncate" style={{ color: "hsl(0 0% 90%)" }}>User Name</p>
-                <p className="text-[11px] truncate" style={{ color: "hsl(0 0% 44%)" }}>user@example.com</p>
+                <p className="text-[13px] font-medium truncate" style={{ color: "var(--foreground-default)" }}>User Name</p>
+                <p className="text-[11px] truncate" style={{ color: "var(--foreground-muted)" }}>user@example.com</p>
               </div>
             </div>
 
@@ -250,7 +245,7 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
               { icon: Palette,    label: "Preferences" },
               { icon: Keyboard,   label: "Keyboard shortcuts" },
             ].map(({ icon: Icon, label }) => (
-              <DropdownMenuItem key={label} className={cn(MENU_ITEM)} style={{ color: "hsl(0 0% 70%)" }}>
+              <DropdownMenuItem key={label} className={cn(MENU_ITEM)} style={{ color: "var(--foreground-light)" }}>
                 <Icon style={{ width: 14, height: 14, flexShrink: 0 }} strokeWidth={1.5} />
                 <span className="text-[13px]">{label}</span>
               </DropdownMenuItem>

@@ -2,7 +2,7 @@ import type { ElementType } from "react"
 import {
   Download, Plus, Trash2, Settings, Users, Key,
   Bell, ShieldCheck, SlidersHorizontal, Home, FolderKanban,
-  Package, FileText,
+  Package, FileText, Palette,
 } from "lucide-react"
 import type { BreadcrumbItem, PageAction } from "@/components/layout/page-header"
 import { getRecentProjectSiblings } from "@/data/projects"
@@ -100,6 +100,11 @@ const CONFIG: Record<string, PageConfig> = {
     actions: [
       { label: "Guardar cambios", icon: SlidersHorizontal as ElementType, variant: "primary" },
     ],
+  },
+
+  "/tema": {
+    breadcrumbs: [{ label: "Home", icon: Home as ElementType, href: "/" }, { label: "Tema" }],
+    actions: [],
   },
 }
 

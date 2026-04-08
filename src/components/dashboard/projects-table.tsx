@@ -13,14 +13,14 @@ import type { Project } from "./project-card"
 /* ── Status badge ──────────────────────────────────────────────────────── */
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  active: { label: "Activo",  color: "#3ECF8E",          bg: "#3ECF8E18",              border: "#3ECF8E44" },
-  paused: { label: "Pausado", color: "hsl(0 0% 52%)",    bg: "hsl(0 0% 18%)",          border: "hsl(0 0% 26%)" },
+  active: { label: "Activo",  color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 10%, transparent)", border: "color-mix(in srgb, var(--brand) 27%, transparent)" },
+  paused: { label: "Pausado", color: "var(--foreground-lighter)",    bg: "var(--border-default)",          border: "var(--border-stronger)" },
   error:  { label: "Error",   color: "hsl(10 78% 62%)",  bg: "hsl(10 78% 58% / 0.12)", border: "hsl(10 78% 58% / 0.3)" },
 }
 
 const PLAN_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
-  FREE: { color: "hsl(0 0% 52%)",     bg: "hsl(0 0% 14%)",           border: "hsl(0 0% 26%)" },
-  NANO: { color: "#3ECF8E",           bg: "#3ECF8E14",                border: "#3ECF8E38" },
+  FREE: { color: "var(--foreground-lighter)",     bg: "var(--surface-100)",           border: "var(--border-stronger)" },
+  NANO: { color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 8%, transparent)",  border: "color-mix(in srgb, var(--brand) 20%, transparent)" },
   PRO:  { color: "hsl(258 80% 72%)",  bg: "hsl(258 80% 60% / 0.12)", border: "hsl(258 80% 60% / 0.3)" },
   TEAM: { color: "hsl(210 100% 64%)", bg: "hsl(210 100% 56% / 0.12)", border: "hsl(210 100% 56% / 0.3)" },
 }
@@ -50,13 +50,13 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
         <TableHeader>
           <TableRow
             className="border-b hover:bg-transparent"
-            style={{ borderColor: "var(--border-default)", backgroundColor: "var(--surface-100)" }}
+            style={{ borderColor: "var(--border-default)", backgroundColor: "var(--surface-200)" }}
           >
             {["Nombre", "Región", "Plan", "Estado", "Creado", "Actualizado"].map(h => (
               <TableHead
                 key={h}
                 className="text-[11px] font-semibold uppercase tracking-widest py-2.5 first:pl-4"
-                style={{ color: "hsl(0 0% 42%)" }}
+                style={{ color: "var(--foreground-muted)" }}
               >
                 {h}
               </TableHead>
@@ -84,13 +84,13 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
                 onClick={() => router.push(href)}
               >
                 <TableCell className="pl-4 py-3">
-                  <span className="text-[13px] font-medium" style={{ color: "hsl(0 0% 88%)" }}>
+                  <span className="text-[13px] font-medium" style={{ color: "var(--foreground-default)" }}>
                     {project.name}
                   </span>
                 </TableCell>
 
                 <TableCell className="py-3">
-                  <span className="text-[13px]" style={{ color: "hsl(0 0% 52%)" }}>
+                  <span className="text-[13px]" style={{ color: "var(--foreground-lighter)" }}>
                     {project.region}
                   </span>
                 </TableCell>
@@ -104,11 +104,11 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
                 </TableCell>
 
                 <TableCell className="py-3">
-                  <span className="text-[13px]" style={{ color: "hsl(0 0% 44%)" }}>{project.createdAt}</span>
+                  <span className="text-[13px]" style={{ color: "var(--foreground-muted)" }}>{project.createdAt}</span>
                 </TableCell>
 
                 <TableCell className="py-3">
-                  <span className="text-[13px]" style={{ color: "hsl(0 0% 44%)" }}>{project.updatedAt}</span>
+                  <span className="text-[13px]" style={{ color: "var(--foreground-muted)" }}>{project.updatedAt}</span>
                 </TableCell>
 
                 {/* 3-dots menu */}
@@ -116,14 +116,14 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       className="flex items-center justify-center w-6 h-6 rounded transition-colors border-0 bg-transparent cursor-pointer outline-none"
-                      style={{ color: "hsl(0 0% 40%)" }}
+                      style={{ color: "var(--foreground-muted)" }}
                       onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = "var(--surface-300)"
-                        e.currentTarget.style.color = "hsl(0 0% 72%)"
+                        e.currentTarget.style.backgroundColor = "var(--background-overlay-hover)"
+                        e.currentTarget.style.color = "var(--foreground-light)"
                       }}
                       onMouseLeave={e => {
                         e.currentTarget.style.backgroundColor = "transparent"
-                        e.currentTarget.style.color = "hsl(0 0% 40%)"
+                        e.currentTarget.style.color = "var(--foreground-muted)"
                       }}
                     >
                       <MoreVertical style={{ width: 14, height: 14 }} strokeWidth={2} />
@@ -132,11 +132,11 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
                     <DropdownMenuContent
                       align="end" side="bottom" sideOffset={4}
                       className="w-44 py-1"
-                      style={{ backgroundColor: "hsl(0 0% 11%)", borderColor: "hsl(0 0% 20%)" }}
+                      style={{ backgroundColor: "var(--background-dialog)", borderColor: "var(--border-default)" }}
                     >
                       <DropdownMenuItem
                         className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-                        style={{ color: "hsl(0 0% 72%)" }}
+                        style={{ color: "var(--foreground-light)" }}
                         onClick={() => router.push(href)}
                       >
                         <ExternalLink style={{ width: 13, height: 13 }} strokeWidth={1.5} />
@@ -145,14 +145,14 @@ export function ProjectsTable({ projects }: { projects: Project[] }) {
 
                       <DropdownMenuItem
                         className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-                        style={{ color: "hsl(0 0% 72%)" }}
+                        style={{ color: "var(--foreground-light)" }}
                         onClick={() => router.push(`${href}/settings`)}
                       >
                         <Settings style={{ width: 13, height: 13 }} strokeWidth={1.5} />
                         Configuración
                       </DropdownMenuItem>
 
-                      <DropdownMenuSeparator style={{ backgroundColor: "hsl(0 0% 18%)" }} />
+                      <DropdownMenuSeparator style={{ backgroundColor: "var(--border-default)" }} />
 
                       <DropdownMenuItem
                         className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"

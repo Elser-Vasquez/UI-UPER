@@ -36,6 +36,33 @@ export const ALL_PROJECTS: ProjectData[] = [
     updatedAt: "3 days ago",
     description: "Base de datos de analíticas pausada pendiente de migración.",
   },
+  {
+    name: "auth-service",
+    region: "AWS | sa-east-1",
+    plan: "NANO",
+    status: "active",
+    createdAt: "Feb 19, 2025",
+    updatedAt: "5 hours ago",
+    description: "Servicio de autenticación y gestión de sesiones de usuarios.",
+  },
+  {
+    name: "cdn-assets",
+    region: "AWS | us-east-1",
+    plan: "PRO",
+    status: "active",
+    createdAt: "Apr 1, 2025",
+    updatedAt: "30 min ago",
+    description: "Distribución global de activos estáticos y media para clientes.",
+  },
+  {
+    name: "message-queue",
+    region: "AWS | eu-central-1",
+    plan: "TEAM",
+    status: "error",
+    createdAt: "Dec 5, 2024",
+    updatedAt: "1 hour ago",
+    description: "Cola de mensajes para procesamiento asíncrono de eventos internos.",
+  },
 ]
 
 export const PROJECTS_MAP: Record<string, ProjectData> = Object.fromEntries(

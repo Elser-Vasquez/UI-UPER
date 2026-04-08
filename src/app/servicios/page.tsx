@@ -1,206 +1,248 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { ServiceCard } from "@/components/dashboard/service-card"
-import { ServicesTable } from "@/components/dashboard/services-table"
+import { ALL_SERVICIOS } from "@/data/servicios"
 import { Input } from "@/components/ui/input"
 import {
-  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/components/ui/table"
 import {
-  ChevronDown, LayoutGrid, List, Search, SlidersHorizontal, Check,
-} from "lucide-react"
-import { ALL_SERVICIOS } from "@/data/servicios"
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Search, ChevronDown, Check, ExternalLink } from "lucide-react"
+
+/* ── Types ──────────────────────────────────────────────────────────────── */
 
 type StatusFilter = "all" | "active" | "paused" | "error"
-type SortOrder    = "asc" | "desc"
 
 const STATUS_LABELS: Record<StatusFilter, string> = {
-  all:    "Estado",
-  active: "Activo",
-  paused: "Pausado",
-  error:  "Error",
+  all: "Estado", active: "Activo", paused: "Pausado", error: "Error",
 }
 
-const TOOLBAR_BTN =
-  "flex items-center gap-1.5 h-8 px-3 rounded-md border text-[13px] transition-colors cursor-pointer"
+/* ── Badge configs ───────────────────────────────────────────────────────── */
 
-const TOOLBAR_STYLE = {
-  borderColor: "var(--border-control)",
-  backgroundColor: "var(--surface-100)",
-  color: "hsl(0 0% 56%)",
+const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
+  active: { label: "Activo",  color: "var(--brand)",            bg: "color-mix(in srgb, var(--brand) 10%, transparent)", border: "color-mix(in srgb, var(--brand) 27%, transparent)" },
+  paused: { label: "Pausado", color: "var(--foreground-lighter)", bg: "var(--border-default)",           border: "var(--border-stronger)" },
+  error:  { label: "Error",   color: "hsl(10 78% 62%)",         bg: "hsl(10 78% 58% / 0.12)",           border: "hsl(10 78% 58% / 0.3)" },
 }
 
-const TOOLBAR_HOVER = {
-  borderColor: "var(--border-strong)",
-  color: "hsl(0 0% 82%)",
+const PLAN_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
+  FREE: { color: "var(--foreground-lighter)",  bg: "var(--surface-100)",                                border: "var(--border-stronger)" },
+  NANO: { color: "var(--brand)",               bg: "color-mix(in srgb, var(--brand) 8%, transparent)",  border: "color-mix(in srgb, var(--brand) 20%, transparent)" },
+  PRO:  { color: "hsl(258 80% 72%)",           bg: "hsl(258 80% 60% / 0.12)",                           border: "hsl(258 80% 60% / 0.3)" },
+  TEAM: { color: "hsl(210 100% 64%)",          bg: "hsl(210 100% 56% / 0.12)",                          border: "hsl(210 100% 56% / 0.3)" },
 }
+
+/* ── Shared toolbar style ────────────────────────────────────────────────── */
+
+const TB = "flex items-center gap-1.5 h-8 px-3 rounded-md border text-[13px] transition-colors cursor-pointer outline-none"
+const TS = { borderColor: "var(--border-control)", backgroundColor: "var(--surface-100)", color: "var(--foreground-lighter)" }
+const TH = { borderColor: "var(--border-strong)", color: "var(--foreground-light)" }
+
+/* ── Badge ───────────────────────────────────────────────────────────────── */
+
+function Badge({ label, color, bg, border }: { label: string; color: string; bg: string; border: string }) {
+  return (
+    <span
+      className="inline-flex items-center rounded px-2 py-0.5 text-[10px] font-semibold tracking-wider leading-none border uppercase"
+      style={{ color, backgroundColor: bg, borderColor: border }}
+    >
+      {label}
+    </span>
+  )
+}
+
+/* ── Page ────────────────────────────────────────────────────────────────── */
 
 export default function ServiciosPage() {
-  const [view,         setView]         = useState<"grid" | "list">("grid")
-  const [search,       setSearch]       = useState("")
+  const router = useRouter()
+  const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
-  const [sortOrder,    setSortOrder]    = useState<SortOrder>("asc")
 
   const servicios = useMemo(() => {
     let list = [...ALL_SERVICIOS]
     if (search.trim()) {
       const q = search.toLowerCase()
-      list = list.filter(s => s.displayName.toLowerCase().includes(q) || s.type.toLowerCase().includes(q))
+      list = list.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.project.toLowerCase().includes(q) ||
+        s.type.toLowerCase().includes(q)
+      )
     }
     if (statusFilter !== "all") list = list.filter(s => s.status === statusFilter)
-    list.sort((a, b) =>
-      sortOrder === "asc"
-        ? a.displayName.localeCompare(b.displayName)
-        : b.displayName.localeCompare(a.displayName)
-    )
     return list
-  }, [search, statusFilter, sortOrder])
+  }, [search, statusFilter])
+
+  const statusDot = (s: StatusFilter) => {
+    if (s === "active") return "var(--brand)"
+    if (s === "error")  return "hsl(10 78% 62%)"
+    return "var(--foreground-lighter)"
+  }
 
   return (
     <DashboardLayout orgName="UPER" plan="FREE">
-      <div className="max-w-[1200px] py-6 space-y-5">
+      <div className="flat-surface max-w-[1200px] py-6 space-y-5">
 
-        {/* Título */}
+        {/* Title */}
         <div>
-          <h1 className="text-[20px] font-semibold leading-snug" style={{ color: "hsl(0 0% 92%)" }}>
+          <h1 className="text-[20px] font-semibold leading-snug" style={{ color: "var(--foreground-default)" }}>
             Servicios
           </h1>
-          <p className="text-[13px] mt-0.5" style={{ color: "hsl(0 0% 44%)" }}>
-            {ALL_SERVICIOS.length} servicio{ALL_SERVICIOS.length !== 1 ? "s" : ""} activos en tu organización
+          <p className="text-[13px] mt-0.5" style={{ color: "var(--foreground-muted)" }}>
+            {ALL_SERVICIOS.length} servicios vinculados a proyectos
           </p>
         </div>
 
         {/* Toolbar */}
         <div className="flex items-center gap-2 flex-wrap">
-
-          <div className="relative flex-1 min-w-[180px] max-w-[320px]">
-            <Search
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ width: 12, height: 12, color: "hsl(0 0% 40%)" }}
-            />
+          <div className="relative flex-1 min-w-[180px] max-w-[300px]">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ width: 12, height: 12, color: "var(--foreground-muted)" }} />
             <Input
-              placeholder="Buscar servicio..."
+              placeholder="Buscar servicio o proyecto..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="pl-8 h-8 text-[13px] rounded-md bg-surface-100 border-border-control text-foreground-light placeholder:text-foreground-muted"
             />
           </div>
 
-          {/* Status */}
           <DropdownMenu>
-            <DropdownMenuTrigger
-              className={TOOLBAR_BTN}
-              style={TOOLBAR_STYLE}
-              onMouseEnter={e => Object.assign(e.currentTarget.style, TOOLBAR_HOVER)}
-              onMouseLeave={e => Object.assign(e.currentTarget.style, TOOLBAR_STYLE)}
+            <DropdownMenuTrigger className={TB} style={TS}
+              onMouseEnter={e => Object.assign(e.currentTarget.style, TH)}
+              onMouseLeave={e => Object.assign(e.currentTarget.style, TS)}
             >
               {statusFilter !== "all" && (
-                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{
-                  backgroundColor: statusFilter === "active" ? "#3ECF8E"
-                    : statusFilter === "error" ? "hsl(10 78% 62%)" : "hsl(0 0% 52%)",
-                }} />
+                <span className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: statusDot(statusFilter) }} />
               )}
               {STATUS_LABELS[statusFilter]}
               <ChevronDown style={{ width: 11, height: 11 }} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start" side="bottom" sideOffset={6}
-              className="w-36 py-1"
-              style={{ backgroundColor: "hsl(0 0% 11%)", borderColor: "hsl(0 0% 20%)" }}
-            >
+            <DropdownMenuContent align="start" side="bottom" sideOffset={6} className="w-36 py-1"
+              style={{ backgroundColor: "var(--background-dialog)", borderColor: "var(--border-default)" }}>
               {(["all", "active", "paused", "error"] as StatusFilter[]).map(s => (
-                <DropdownMenuItem
-                  key={s}
+                <DropdownMenuItem key={s}
                   className="flex items-center gap-2 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-                  style={{ color: statusFilter === s ? "hsl(0 0% 90%)" : "hsl(0 0% 60%)" }}
+                  style={{ color: statusFilter === s ? "var(--foreground-default)" : "var(--foreground-light)" }}
                   onClick={() => setStatusFilter(s)}
                 >
                   <span className="flex-1">{STATUS_LABELS[s]}</span>
-                  {statusFilter === s && <Check style={{ width: 11, height: 11, color: "#3ECF8E" }} />}
+                  {statusFilter === s && <Check style={{ width: 11, height: 11, color: "var(--brand)" }} />}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/* Sort */}
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className={TOOLBAR_BTN}
-              style={TOOLBAR_STYLE}
-              onMouseEnter={e => Object.assign(e.currentTarget.style, TOOLBAR_HOVER)}
-              onMouseLeave={e => Object.assign(e.currentTarget.style, TOOLBAR_STYLE)}
-            >
-              <SlidersHorizontal style={{ width: 11, height: 11 }} />
-              {sortOrder === "asc" ? "Nombre A–Z" : "Nombre Z–A"}
-              <ChevronDown style={{ width: 11, height: 11 }} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start" side="bottom" sideOffset={6}
-              className="w-40 py-1"
-              style={{ backgroundColor: "hsl(0 0% 11%)", borderColor: "hsl(0 0% 20%)" }}
-            >
-              {([{ value: "asc", label: "Ascendente A–Z" }, { value: "desc", label: "Descendente Z–A" }] as { value: SortOrder; label: string }[]).map(opt => (
-                <DropdownMenuItem
-                  key={opt.value}
-                  className="flex items-center gap-2 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-                  style={{ color: sortOrder === opt.value ? "hsl(0 0% 90%)" : "hsl(0 0% 60%)" }}
-                  onClick={() => setSortOrder(opt.value)}
-                >
-                  <span className="flex-1">{opt.label}</span>
-                  {sortOrder === opt.value && <Check style={{ width: 11, height: 11, color: "#3ECF8E" }} />}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* View toggle */}
-          <div className="flex items-center rounded-md border overflow-hidden" style={{ borderColor: "var(--border-control)" }}>
-            <button
-              onClick={() => setView("grid")}
-              className="flex items-center justify-center w-8 h-8 border-r transition-colors"
-              style={{
-                borderColor: "var(--border-control)",
-                backgroundColor: view === "grid" ? "var(--surface-200)" : "var(--surface-100)",
-                color: view === "grid" ? "hsl(0 0% 90%)" : "hsl(0 0% 42%)",
-              }}
-            >
-              <LayoutGrid style={{ width: 13, height: 13 }} />
-            </button>
-            <button
-              onClick={() => setView("list")}
-              className="flex items-center justify-center w-8 h-8 transition-colors"
-              style={{
-                backgroundColor: view === "list" ? "var(--surface-200)" : "var(--surface-100)",
-                color: view === "list" ? "hsl(0 0% 90%)" : "hsl(0 0% 42%)",
-              }}
-            >
-              <List style={{ width: 13, height: 13 }} />
-            </button>
-          </div>
         </div>
 
-        {/* Contenido */}
+        {/* Content */}
         {servicios.length === 0 ? (
           <div className="flex flex-col items-center py-20 text-center">
-            <p className="text-[14px]" style={{ color: "hsl(0 0% 52%)" }}>
-              Sin resultados para <span style={{ color: "hsl(0 0% 72%)" }}>"{search}"</span>
+            <p className="text-[14px]" style={{ color: "var(--foreground-lighter)" }}>
+              Sin resultados para <span style={{ color: "var(--foreground-light)" }}>"{search}"</span>
             </p>
-            <button
-              className="mt-3 text-[12px] border-0 bg-transparent cursor-pointer transition-colors"
-              style={{ color: "#3ECF8E" }}
-              onClick={() => { setSearch(""); setStatusFilter("all") }}
-            >
+            <button className="mt-3 text-[12px] border-0 bg-transparent cursor-pointer"
+              style={{ color: "var(--brand)" }}
+              onClick={() => { setSearch(""); setStatusFilter("all") }}>
               Limpiar filtros
             </button>
           </div>
-        ) : view === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {servicios.map(s => <ServiceCard key={s.name} servicio={s} />)}
-          </div>
         ) : (
-          <ServicesTable servicios={servicios} />
+          <div className="rounded-lg border overflow-hidden" style={{ borderColor: "var(--border-default)" }}>
+            <Table>
+              <TableHeader>
+                <TableRow className="border-b hover:bg-transparent"
+                  style={{ borderColor: "var(--border-default)", backgroundColor: "var(--surface-200)" }}>
+                  {["ID", "Nombre", "Proyecto", "Tipo", "Plan", "Estado", "Creado", "Contrato"].map(h => (
+                    <TableHead key={h}
+                      className="text-[11px] font-semibold uppercase tracking-widest py-2.5 first:pl-4"
+                      style={{ color: "var(--foreground-muted)" }}>
+                      {h}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {servicios.map((svc, i) => {
+                  const statusCfg = STATUS_CONFIG[svc.status] ?? STATUS_CONFIG.paused
+                  const planCfg   = PLAN_CONFIG[svc.plan]     ?? PLAN_CONFIG.FREE
+
+                  return (
+                    <TableRow key={svc.id}
+                      className="cursor-pointer"
+                      style={{
+                        borderColor: "var(--border-default)",
+                        backgroundColor: i % 2 === 0 ? "var(--background-default)" : "transparent",
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--surface-200)")}
+                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = i % 2 === 0 ? "var(--background-default)" : "transparent")}
+                      onClick={() => router.push(`/servicios/${svc.id.toLowerCase()}`)}
+                    >
+                      <TableCell className="pl-4 py-3">
+                        <span className="text-[11px] font-mono" style={{ color: "var(--foreground-muted)" }}>
+                          {svc.id}
+                        </span>
+                      </TableCell>
+
+                      <TableCell className="py-3">
+                        <span className="text-[13px] font-medium" style={{ color: "var(--foreground-default)" }}>
+                          {svc.name}
+                        </span>
+                      </TableCell>
+
+                      <TableCell className="py-3" onClick={e => e.stopPropagation()}>
+                        <button
+                          className="inline-flex items-center gap-1 text-[12px] bg-transparent border-0 cursor-pointer p-0 transition-colors"
+                          style={{ color: "var(--foreground-lighter)" }}
+                          onMouseEnter={e => (e.currentTarget.style.color = "var(--foreground-light)")}
+                          onMouseLeave={e => (e.currentTarget.style.color = "var(--foreground-lighter)")}
+                          onClick={() => router.push(`/projects/${svc.project}`)}
+                        >
+                          {svc.project}
+                          <ExternalLink style={{ width: 10, height: 10, flexShrink: 0 }} strokeWidth={1.5} />
+                        </button>
+                      </TableCell>
+
+                      <TableCell className="py-3">
+                        <span className="text-[13px]" style={{ color: "var(--foreground-lighter)" }}>
+                          {svc.type}
+                        </span>
+                      </TableCell>
+
+                      <TableCell className="py-3">
+                        <Badge label={svc.plan} {...planCfg} />
+                      </TableCell>
+
+                      <TableCell className="py-3">
+                        <Badge label={statusCfg.label} {...statusCfg} />
+                      </TableCell>
+
+                      <TableCell className="py-3">
+                        <span className="text-[13px]" style={{ color: "var(--foreground-muted)" }}>
+                          {svc.createdAt}
+                        </span>
+                      </TableCell>
+
+                      <TableCell className="py-3" onClick={e => e.stopPropagation()}>
+                        <button
+                          className="text-[11px] font-mono bg-transparent border-0 cursor-pointer p-0 transition-colors"
+                          style={{ color: "var(--foreground-lighter)" }}
+                          onMouseEnter={e => (e.currentTarget.style.color = "var(--foreground-light)")}
+                          onMouseLeave={e => (e.currentTarget.style.color = "var(--foreground-lighter)")}
+                          onClick={() => router.push(`/contratos/${svc.contractId.toLowerCase()}`)}
+                        >
+                          {svc.contractId} ↗
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </div>
         )}
 
       </div>

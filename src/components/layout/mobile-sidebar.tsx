@@ -12,6 +12,7 @@ import {
   Bell,
   ShieldCheck,
   Settings,
+  Palette,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { BrandLogo } from "@/components/icons/brand-logo"
@@ -30,13 +31,14 @@ const NAV_SISTEMA = [
   { label: "Notificaciones", href: "/notificaciones", icon: Bell },
   { label: "Auditoría",      href: "/auditoria",       icon: ShieldCheck },
   { label: "Configuración",  href: "/configuracion",   icon: Settings },
+  { label: "Tema",           href: "/tema",             icon: Palette },
 ]
 
 const ITEM_BASE =
   "flex items-center gap-2.5 mx-2 rounded-md px-2.5 py-[9px] text-[13.5px] leading-none transition-colors duration-100 select-none"
 
-const ITEM_ACTIVE   = "bg-[hsl(0_0%_22%)] text-[hsl(0_0%_98%)] font-medium"
-const ITEM_INACTIVE = "text-[hsl(0_0%_60%)] hover:bg-[hsl(0_0%_22%)] hover:text-[hsl(0_0%_92%)]"
+const ITEM_ACTIVE   = "nav-item-active"
+const ITEM_INACTIVE = "nav-item-inactive"
 
 const ICON_PROPS = { width: 16, height: 16, minWidth: 16, flexShrink: 0 } as const
 
@@ -85,8 +87,8 @@ export function MobileSidebar({
             className="flex items-center justify-center shrink-0"
             style={{
               width: 30, height: 30, borderRadius: "50%",
-              backgroundColor: "hsl(0 0% 10%)",
-              border: "1px solid hsl(0 0% 22%)",
+              backgroundColor: "var(--surface-100)",
+              border: "1px solid var(--border-control)",
             }}
           >
             <BrandLogo size={17} />
@@ -95,14 +97,18 @@ export function MobileSidebar({
           <div className="flex items-center gap-2 ml-2.5 min-w-0">
             <span
               className="text-[17px] font-bold leading-none tracking-tight truncate"
-              style={{ color: "hsl(0 0% 92%)", fontFamily: "var(--font-nunito)" }}
+              style={{ color: "var(--foreground-default)", fontFamily: "var(--font-nunito)" }}
             >
               {orgName.toUpperCase()}
-              <span style={{ color: "#3ECF8E" }}>.</span>
+              <span style={{ color: "var(--brand)" }}>.</span>
             </span>
             <span
               className="inline-flex items-center rounded px-1 py-[2px] text-[9px] font-medium tracking-widest leading-none border shrink-0"
-              style={{ color: "#3ECF8E", borderColor: "#29a86944", backgroundColor: "#3ECF8E12" }}
+              style={{
+                color: "var(--brand)",
+                borderColor: "color-mix(in srgb, var(--brand) 30%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--brand) 8%, transparent)",
+              }}
             >
               {plan}
             </span>
@@ -127,7 +133,7 @@ export function MobileSidebar({
           <div className="mx-4 mt-3 mb-1">
             <span
               className="text-[10px] font-semibold uppercase tracking-widest leading-none"
-              style={{ color: "hsl(0 0% 36%)" }}
+              style={{ color: "var(--foreground-muted)" }}
             >
               Sistema
             </span>

@@ -18,14 +18,14 @@ export interface Project {
 /* ── Badge configs ───────────────────────────────────────────────────────── */
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  active: { label: "Activo",  color: "#3ECF8E",          bg: "#3ECF8E18",              border: "#3ECF8E44" },
-  paused: { label: "Pausado", color: "hsl(0 0% 52%)",    bg: "hsl(0 0% 18%)",          border: "hsl(0 0% 26%)" },
+  active: { label: "Activo",  color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 10%, transparent)", border: "color-mix(in srgb, var(--brand) 27%, transparent)" },
+  paused: { label: "Pausado", color: "var(--foreground-lighter)",    bg: "var(--border-default)",          border: "var(--border-stronger)" },
   error:  { label: "Error",   color: "hsl(10 78% 62%)",  bg: "hsl(10 78% 58% / 0.12)", border: "hsl(10 78% 58% / 0.3)" },
 }
 
 const PLAN_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
-  FREE: { color: "hsl(0 0% 52%)",    bg: "hsl(0 0% 14%)",           border: "hsl(0 0% 26%)" },
-  NANO: { color: "#3ECF8E",          bg: "#3ECF8E14",                border: "#3ECF8E38" },
+  FREE: { color: "var(--foreground-lighter)",    bg: "var(--surface-100)",           border: "var(--border-stronger)" },
+  NANO: { color: "var(--brand)",     bg: "color-mix(in srgb, var(--brand) 8%, transparent)",  border: "color-mix(in srgb, var(--brand) 20%, transparent)" },
   PRO:  { color: "hsl(258 80% 72%)", bg: "hsl(258 80% 60% / 0.12)", border: "hsl(258 80% 60% / 0.3)" },
   TEAM: { color: "hsl(210 100% 64%)", bg: "hsl(210 100% 56% / 0.12)", border: "hsl(210 100% 56% / 0.3)" },
 }
@@ -53,28 +53,16 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <div
-      className="relative rounded-lg border flex flex-col gap-0 cursor-pointer group overflow-hidden min-h-[160px]"
+      className="project-card relative rounded-lg border flex flex-col gap-0 cursor-pointer group overflow-hidden min-h-[160px]"
       style={{
         backgroundColor: "var(--surface-100)",
-        borderColor: "var(--border-default)",
-        transition: "border-color 200ms ease, box-shadow 200ms ease",
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget
-        el.style.borderColor = "#3ECF8E55"
-        el.style.boxShadow = "0 0 0 1px #3ECF8E22, inset 0 0 20px #3ECF8E08"
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget
-        el.style.borderColor = "var(--border-default)"
-        el.style.boxShadow = ""
       }}
       onClick={() => router.push(href)}
     >
       {/* ── Top bar ──────────────────────────────────────────────────────── */}
       <div className="flex items-start justify-between px-4 pt-5 pb-4">
         <div className="flex flex-col gap-1.5 min-w-0">
-          <h3 className="text-[13px] font-semibold leading-snug truncate" style={{ color: "hsl(0 0% 90%)" }}>
+          <h3 className="text-[13px] font-semibold leading-snug truncate" style={{ color: "var(--foreground-default)" }}>
             {project.name}
           </h3>
           {/* Badges */}
@@ -88,14 +76,14 @@ export function ProjectCard({ project }: { project: Project }) {
         <DropdownMenu>
           <DropdownMenuTrigger
             className="flex items-center justify-center w-6 h-6 rounded transition-colors shrink-0 ml-2 mt-0.5 border-0 bg-transparent cursor-pointer outline-none"
-            style={{ color: "hsl(0 0% 40%)" }}
+            style={{ color: "var(--foreground-muted)" }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = "hsl(0 0% 22%)"
-              e.currentTarget.style.color = "hsl(0 0% 72%)"
+              e.currentTarget.style.backgroundColor = "var(--background-overlay-hover)"
+              e.currentTarget.style.color = "var(--foreground-light)"
             }}
             onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = "transparent"
-              e.currentTarget.style.color = "hsl(0 0% 40%)"
+              e.currentTarget.style.color = "var(--foreground-muted)"
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -105,11 +93,11 @@ export function ProjectCard({ project }: { project: Project }) {
           <DropdownMenuContent
             align="end" side="bottom" sideOffset={4}
             className="w-44 py-1"
-            style={{ backgroundColor: "hsl(0 0% 11%)", borderColor: "hsl(0 0% 20%)" }}
+            style={{ backgroundColor: "var(--background-dialog)", borderColor: "var(--border-default)" }}
           >
             <DropdownMenuItem
               className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-              style={{ color: "hsl(0 0% 72%)" }}
+              style={{ color: "var(--foreground-light)" }}
               onClick={e => { e.stopPropagation(); router.push(href) }}
             >
               <ExternalLink style={{ width: 13, height: 13 }} strokeWidth={1.5} />
@@ -118,14 +106,14 @@ export function ProjectCard({ project }: { project: Project }) {
 
             <DropdownMenuItem
               className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
-              style={{ color: "hsl(0 0% 72%)" }}
+              style={{ color: "var(--foreground-light)" }}
               onClick={e => { e.stopPropagation(); router.push(`${href}/settings`) }}
             >
               <Settings style={{ width: 13, height: 13 }} strokeWidth={1.5} />
               Configuración
             </DropdownMenuItem>
 
-            <DropdownMenuSeparator style={{ backgroundColor: "hsl(0 0% 18%)" }} />
+            <DropdownMenuSeparator style={{ backgroundColor: "var(--border-default)" }} />
 
             <DropdownMenuItem
               className="flex items-center gap-2.5 px-3 py-2 text-[13px] cursor-pointer mx-0.5 rounded-md"
@@ -142,12 +130,12 @@ export function ProjectCard({ project }: { project: Project }) {
       {/* ── Footer info ──────────────────────────────────────────────────── */}
       <div className="px-4 pb-4 pt-2 flex flex-col gap-2 mt-auto">
         <div className="flex items-center gap-1.5">
-          <Globe style={{ width: 11, height: 11, flexShrink: 0, color: "hsl(0 0% 36%)" }} strokeWidth={1.6} />
-          <span className="text-[12px] truncate" style={{ color: "hsl(0 0% 46%)" }}>{project.region}</span>
+          <Globe style={{ width: 11, height: 11, flexShrink: 0, color: "var(--foreground-muted)" }} strokeWidth={1.6} />
+          <span className="text-[12px] truncate" style={{ color: "var(--foreground-lighter)" }}>{project.region}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Clock style={{ width: 11, height: 11, flexShrink: 0, color: "hsl(0 0% 36%)" }} strokeWidth={1.6} />
-          <span className="text-[12px]" style={{ color: "hsl(0 0% 38%)" }}>
+          <Clock style={{ width: 11, height: 11, flexShrink: 0, color: "var(--foreground-muted)" }} strokeWidth={1.6} />
+          <span className="text-[12px]" style={{ color: "var(--foreground-muted)" }}>
             Actualizado {project.updatedAt}
           </span>
         </div>
