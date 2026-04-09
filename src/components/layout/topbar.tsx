@@ -28,7 +28,7 @@ const DIVIDER      = "var(--border-default)"
 
 /** Circular icon button (Help, Bell, Avatar trigger) */
 const ICON_BTN =
-  "flex items-center justify-center w-[30px] h-[30px] rounded-full cursor-pointer " +
+  "flex items-center justify-center w-[36px] h-[36px] md:w-[30px] md:h-[30px] rounded-full cursor-pointer " +
   "border border-[var(--border-control)] bg-transparent transition-all duration-150 " +
   "text-[var(--foreground-lighter)] hover:border-[var(--border-stronger)] hover:bg-[var(--background-overlay-hover)] hover:text-[var(--foreground-light)] " +
   "hover:ring-2 hover:ring-[color-mix(in_srgb,var(--brand)_18%,transparent)]"
@@ -72,11 +72,11 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
       {/* ── Mobile left ─────────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 md:hidden">
         <button onClick={onMobileMenuClick} className={ICON_BTN} aria-label="Open menu">
-          <Menu style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+          <Menu className="w-[19px] h-[19px]" strokeWidth={1.8} />
         </button>
-        <div className="flex items-center justify-center shrink-0"
-          style={{ width: 30, height: 30, borderRadius: "50%", backgroundColor: "var(--surface-100)", border: "1px solid var(--border-control)" }}>
-          <BrandLogo size={17} />
+        <div className="flex items-center justify-center shrink-0 w-[36px] h-[36px] md:w-[30px] md:h-[30px]"
+          style={{ borderRadius: "50%", backgroundColor: "var(--surface-100)", border: "1px solid var(--border-control)" }}>
+          <BrandLogo size={19} />
         </div>
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-[17px] font-bold leading-none tracking-tight"
@@ -116,7 +116,7 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
         {/* ── Help ──────────────────────────────────────────────────────── */}
         <DropdownMenu>
           <DropdownMenuTrigger className={cn(ICON_BTN, "outline-none")} aria-label="Help">
-            <HelpCircle style={{ width: 14, height: 14 }} strokeWidth={1.6} />
+            <HelpCircle className="w-[16px] h-[16px] md:w-[14px] md:h-[14px]" strokeWidth={1.6} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
@@ -167,8 +167,8 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
         {/* ── Notifications ─────────────────────────────────────────────── */}
         <Popover>
           <PopoverTrigger className={cn(ICON_BTN, "relative outline-none")} aria-label="Notifications">
-            <Bell style={{ width: 14, height: 14 }} strokeWidth={1.6} />
-            <span className="absolute top-[7px] right-[7px] w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
+            <Bell className="w-[16px] h-[16px] md:w-[14px] md:h-[14px]" strokeWidth={1.6} />
+            <span className="absolute top-[9px] right-[9px] md:top-[7px] md:right-[7px] w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           </PopoverTrigger>
 
           <PopoverContent
@@ -217,7 +217,7 @@ export function Topbar({ onMobileMenuClick, orgName = "UPER", plan = "FREE" }: T
         {/* ── Avatar / Profile ──────────────────────────────────────────── */}
         <DropdownMenu>
           <DropdownMenuTrigger className={cn(ICON_BTN, "outline-none")}>
-            <User style={{ width: 14, height: 14, color: "var(--foreground-lighter)" }} strokeWidth={1.6} />
+            <User className="w-[16px] h-[16px] md:w-[14px] md:h-[14px]" style={{ color: "var(--foreground-lighter)" }} strokeWidth={1.6} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
