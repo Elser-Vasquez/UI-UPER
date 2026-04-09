@@ -229,7 +229,7 @@ export default function PagosPage() {
                       </TableCell>
 
                       <TableCell className="py-3">
-                        <Badge label={statusCfg.label} {...statusCfg} />
+                        <Badge {...statusCfg} />
                       </TableCell>
 
                       <TableCell className="py-3">

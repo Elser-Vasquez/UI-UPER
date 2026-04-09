@@ -244,7 +244,7 @@ export default function ContratosPage() {
                       </TableCell>
 
                       <TableCell className="py-3">
-                        <Badge label={statusCfg.label} {...statusCfg} />
+                        <Badge {...statusCfg} />
                       </TableCell>
 
                       <TableCell className="py-3">

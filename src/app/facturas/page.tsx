@@ -225,7 +225,7 @@ export default function FacturasPage() {
                       </TableCell>
 
                       <TableCell className="py-3">
-                        <Badge label={statusCfg.label} {...statusCfg} />
+                        <Badge {...statusCfg} />
                       </TableCell>
 
                       <TableCell className="py-3">
