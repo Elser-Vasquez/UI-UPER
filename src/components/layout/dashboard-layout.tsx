@@ -33,7 +33,7 @@ export function DashboardLayout({ children, orgName, plan }: DashboardLayoutProp
   const { breadcrumbs, actions } = getPageConfig(pathname)
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-dvh overflow-hidden">
       {/* ── Desktop sidebar — full height left column ── */}
       <div className="hidden md:flex shrink-0 h-full">
         <AppSidebar
@@ -53,7 +53,7 @@ export function DashboardLayout({ children, orgName, plan }: DashboardLayoutProp
       />
 
       {/* ── Right column: topbar + page header + content ── */}
-      <div className="flex flex-col flex-1 overflow-hidden min-w-0">
+      <div className="flex flex-col flex-1 min-h-0 min-w-0 overflow-x-hidden">
         <Topbar onMobileMenuClick={() => setMobileOpen(true)} orgName={orgName} plan={plan} />
         <PageHeader breadcrumbs={breadcrumbs} actions={actions} />
         <main
