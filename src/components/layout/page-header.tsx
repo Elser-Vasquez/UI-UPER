@@ -210,8 +210,8 @@ function ActionsPanel({ actions }: { actions: PageAction[] }) {
       {/* ── Mobile: trigger → dropdown ─────────────────────────────────── */}
       <div className="flex md:hidden">
         <DropdownMenu>
-          <DropdownMenuTrigger className={cn(ACTION_BASE, ACTION_VARIANT.ghost, "h-[34px] w-[34px] px-0 justify-center shrink-0 outline-none")} title="Acciones">
-            <MoreHorizontal className="w-[15px] h-[15px]" strokeWidth={1.7} />
+          <DropdownMenuTrigger className={cn(TOGGLE_BTN, "outline-none")} title="Acciones">
+            <MoreHorizontal style={{ width: 13, height: 13 }} strokeWidth={1.7} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent

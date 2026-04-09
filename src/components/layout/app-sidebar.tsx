@@ -80,7 +80,7 @@ export function AppSidebar({
 
     const linkEl = (
       <Link href={href} className={cn(ITEM_BASE, active ? ITEM_ACTIVE : ITEM_INACTIVE)}>
-        <Icon style={ICON_PROPS} strokeWidth={1.5} />
+        <Icon style={ICON_PROPS} strokeWidth={1.8} />
         {!collapsed && <span className="truncate">{label}</span>}
       </Link>
     )
@@ -113,23 +113,27 @@ export function AppSidebar({
         style={{
           height: "var(--topbar-height)",
           borderColor: "var(--border-default)",
-          paddingLeft: 10,
-          paddingRight: 10,
         }}
       >
+        {/* Icon zone — always sidebar-width-icon wide so logo never moves */}
         <div
           className="flex items-center justify-center shrink-0"
-          style={{
-            width: 30, height: 30, borderRadius: "50%",
-            backgroundColor: "var(--surface-100)",
-            border: "1px solid var(--border-control)",
-          }}
+          style={{ width: "var(--sidebar-width-icon)" }}
         >
-          <BrandLogo size={17} />
+          <div
+            className="flex items-center justify-center"
+            style={{
+              width: 36, height: 36, borderRadius: "50%",
+              backgroundColor: "var(--surface-100)",
+              border: "1px solid var(--border-control)",
+            }}
+          >
+            <BrandLogo size={19} />
+          </div>
         </div>
 
         {!collapsed && (
-          <div className="flex items-center gap-2 ml-2.5 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <span
               className="text-[17px] font-bold leading-none tracking-tight truncate"
               style={{ color: "var(--foreground-default)", fontFamily: "var(--font-nunito)" }}
@@ -189,7 +193,7 @@ export function AppSidebar({
                 className={cn(ITEM_BASE, ITEM_MUTED)}
                 style={{ width: "calc(100% - 16px)" }}
               >
-                <PanelLeftOpen style={ICON_PROPS} strokeWidth={1.5} />
+                <PanelLeftOpen style={ICON_PROPS} strokeWidth={1.8} />
               </button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={8}>Expand sidebar</TooltipContent>
@@ -200,7 +204,7 @@ export function AppSidebar({
             className={cn(ITEM_BASE, ITEM_MUTED)}
             style={{ width: "calc(100% - 16px)" }}
           >
-            <PanelLeftClose style={ICON_PROPS} strokeWidth={1.5} />
+            <PanelLeftClose style={ICON_PROPS} strokeWidth={1.8} />
             <span className="truncate">Collapse</span>
           </button>
         )}

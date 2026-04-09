@@ -91,7 +91,13 @@
   /* Layout */
   --sidebar-width:                 228px;
   --sidebar-width-icon:            48px;
-  --topbar-height:                 44px;
+  --topbar-height:                 52px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --topbar-height: 56px;
+  }
 }
 
 /* ─── Dark-first base (Supabase uses dark as default) ──────────────────── */
@@ -280,15 +286,38 @@
 /* These classes use CSS variables so they work in both dark and light modes.  */
 /* Components should use these instead of hardcoded hsl() dark-only values.   */
 
+/* ── Topbar icon buttons ─────────────────────────────────────────────────── */
+
+.topbar-icon-btn {
+  width: 36px;
+  height: 36px;
+}
+.topbar-icon-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .topbar-icon-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .topbar-icon-btn svg {
+    width: 21px;
+    height: 21px;
+  }
+}
+
 /* ── Sidebar nav items ────────────────────────────────────────────────────── */
 
 .nav-item-active {
   background-color: var(--background-selection);
   color: var(--foreground-default);
-  font-weight: 500;
+  font-weight: 600;
 }
 .nav-item-inactive {
   color: var(--foreground-lighter);
+  font-weight: 500;
 }
 .nav-item-inactive:hover {
   background-color: var(--background-overlay-hover);
@@ -296,6 +325,7 @@
 }
 .nav-item-muted {
   color: var(--foreground-muted);
+  font-weight: 500;
 }
 .nav-item-muted:hover {
   background-color: var(--background-overlay-hover);

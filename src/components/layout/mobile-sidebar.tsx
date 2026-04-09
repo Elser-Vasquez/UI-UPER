@@ -79,35 +79,35 @@ export function MobileSidebar({
           style={{
             height: "var(--topbar-height)",
             borderColor: "var(--border-default)",
-            paddingLeft: 10,
-            paddingRight: 10,
+            paddingLeft: 14,
+            paddingRight: 14,
           }}
         >
           <div
             className="flex items-center justify-center shrink-0"
             style={{
-              width: 30, height: 30, borderRadius: "50%",
+              width: 42, height: 42, borderRadius: "50%",
               backgroundColor: "var(--surface-100)",
               border: "1px solid var(--border-control)",
             }}
           >
-            <BrandLogo size={17} />
+            <BrandLogo size={19} />
           </div>
 
-          <div className="flex items-center gap-2 ml-2.5 min-w-0">
+          <div className="flex items-center gap-2.5 ml-3 min-w-0">
             <span
-              className="text-[17px] font-bold leading-none tracking-tight truncate"
-              style={{ color: "var(--foreground-default)", fontFamily: "var(--font-nunito)" }}
+              className="text-[22px] font-extrabold leading-none truncate"
+              style={{ color: "var(--foreground-default)", fontFamily: "var(--font-nunito)", letterSpacing: "-0.02em" }}
             >
               {orgName.toUpperCase()}
               <span style={{ color: "var(--brand)" }}>.</span>
             </span>
             <span
-              className="inline-flex items-center rounded px-1 py-[2px] text-[9px] font-medium tracking-widest leading-none border shrink-0"
+              className="inline-flex items-center rounded px-1.5 py-[3px] text-[10px] font-semibold tracking-widest leading-none border shrink-0"
               style={{
                 color: "var(--brand)",
                 borderColor: "color-mix(in srgb, var(--brand) 30%, transparent)",
-                backgroundColor: "color-mix(in srgb, var(--brand) 8%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--brand) 10%, transparent)",
               }}
             >
               {plan}
@@ -124,7 +124,7 @@ export function MobileSidebar({
               onClick={onClose}
               className={cn(ITEM_BASE, isActive(item.href, pathname) ? ITEM_ACTIVE : ITEM_INACTIVE)}
             >
-              <item.icon style={ICON_PROPS} strokeWidth={1.5} />
+              <item.icon style={ICON_PROPS} strokeWidth={1.8} />
               <span className="truncate">{item.label}</span>
             </Link>
           ))}
@@ -146,7 +146,7 @@ export function MobileSidebar({
               onClick={onClose}
               className={cn(ITEM_BASE, isActive(item.href, pathname) ? ITEM_ACTIVE : ITEM_INACTIVE)}
             >
-              <item.icon style={ICON_PROPS} strokeWidth={1.5} />
+              <item.icon style={ICON_PROPS} strokeWidth={1.8} />
               <span className="truncate">{item.label}</span>
             </Link>
           ))}
